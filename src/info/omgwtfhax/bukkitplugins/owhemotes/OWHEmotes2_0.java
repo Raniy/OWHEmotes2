@@ -3,8 +3,6 @@ package info.omgwtfhax.bukkitplugins.owhemotes;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.HardMode;
-import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.SoftMode;
 
 public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin{
 	public enum Mode 
@@ -18,22 +16,40 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	// List of Emotes
 	private List<Emote> myEmotes = null;
 	
-	//Command Handlers
-	SoftMode cmdHandlerSoft = null;
-	HardMode cmdHandlerHard = null;
-	
 	// Plugin Loading 
 	@Override
 	public void onEnable()
 	{
 		this.consoleInfo("Enabling...");
 		
+		// Instance null variables
 		this.myEmotes = new ArrayList<Emote>();
 		
+		
+		// Load variables from Config
 		this.getEmotesfromConfig();
 		this.setMode(this.getModeFromConfig());
+		
+		// Start listening for commands.
+		this.startCommanHandler();
+		
 		this.consoleInfo("Enabled.");
 
+	}
+
+	private void startCommanHandler() {
+		// First: Make sure we are listening for our Add and Remove emote commands. Those being basic Bukkit style thingies it should be easy.
+		
+		// Second Figure out which mode we are in
+		switch(this.getMode())
+		{
+			case HARD: // Yay, we like it HARD! 
+				// Do whatever we do to listen for Emotes in Hard mode
+		
+			case SOFT:	// Eww... SOFT is for Nublets that only use Bukkit API to do things!
+				// Start a PreCommand Event listener to catch people trying to do Emotes.
+		}
+		
 	}
 
 	// Plugin Unloading

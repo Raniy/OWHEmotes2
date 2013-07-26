@@ -25,11 +25,15 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		// Instance null variables
 		this.myEmotes = new ArrayList<Emote>();
 		
-		
 		// Load variables from Config
 		this.getEmotesfromConfig();
 		
 		this.setMode(this.getModeFromConfig());
+		
+		// Make sure Vault is working...
+		if(!(this.setupPermissions())) this.consoleInfo("Failed to setup Vault Permisions...");
+		if(!(this.setupEconomy())) this.consoleInfo("Failed to setup Vault Economy...");
+		if(!(this.setupChat())) this.consoleInfo("Failed to setup Vault Chat...");
 		
 		// Start listening for commands.
 		this.startCommanHandler();
@@ -43,11 +47,6 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	public void onDisable()
 	{
 		this.consoleInfo("Disabling...");
-		
-		// Make sure Vault is working...
-		this.setupPermissions();
-		this.setupEconomy();
-		this.setupChat();
 		
 		// Add any emotes that are new to the list in Memory to the list in the Config.
 		this.addEmotesToConfig();

@@ -2,14 +2,25 @@ package info.omgwtfhax.bukkitplugins.core;
 
 import java.lang.reflect.Field;
 
+import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.SimpleCommandMap;
 
 
 import org.bukkit.craftbukkit.v1_6_R2.CraftServer; // HARD MODE REFERENCE, SUBJECT TO RANDOM CHANGES!!!
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 
 public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{ 
+	// Vault stuffs.
+	
+	public static Permission permission = null;
+    public static Economy economy = null;
+    public static Chat chat = null;
+	
 	public org.bukkit.configuration.file.FileConfiguration getMyConfig()
 	{	/*
 		 * Wrapper for Bukkit's built in FileConfiguration pluginname/config.yml Config File
@@ -79,5 +90,34 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 
 		return cmap; // May be a valid CraftBukkit Map, may not be.
 	}
+	
+	protected boolean setupPermissions()
+    {
+        RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+        if (permissionProvider != null) {
+            permission = permissionProvider.getProvider();
+        }
+        return (permission != null);
+    }
+
+    protected boolean setupChat()
+    {
+        RegisteredServiceProvider<Chat> chatProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
+        if (chatProvider != null) {
+            chat = chatProvider.getProvider();
+        }
+
+        return (chat != null);
+    }
+
+    protected boolean setupEconomy()
+    {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
+
+        return (economy != null);
+    }
 
 }

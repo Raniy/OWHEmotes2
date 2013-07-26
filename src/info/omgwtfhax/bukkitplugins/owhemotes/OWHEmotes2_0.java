@@ -44,6 +44,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	{
 		this.consoleInfo("Disabling...");
 		
+		// Make sure Vault is working...
+		this.setupPermissions();
+		this.setupEconomy();
+		this.setupChat();
+		
 		// Add any emotes that are new to the list in Memory to the list in the Config.
 		this.addEmotesToConfig();
 		

@@ -12,6 +12,7 @@ public class HardMode {
 	 * Sorry guys... write a better API.
 	 * 
 	 */
+	
 	OWHEmotes2_0 myPlugin = null;
 	
 	HardMode(OWHEmotes2_0 instance)

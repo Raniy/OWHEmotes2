@@ -9,15 +9,27 @@ import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.craftbukkit.v1_6_R2.CraftServer; // HARD MODE REFERENCE, SUBJECT TO RANDOM CHANGES!!!
 
 
-public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
+public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{ // WARNING MAY RETURN ' null ' ALWAYS CHECK!!!
+	public org.bukkit.configuration.file.FileConfiguration getMyConfig() {
+		try {
+			return this.getConfig();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
-	
-	// Wrap the built in Config.yml file
-	org.bukkit.configuration.file.FileConfiguration myConfig = null;
-	
-	// Wrap the broadcast to player function
-	boolean sendToPlayer(String player, String msg)
+	public void saveMyConfig()
 	{
+		this.saveConfig();
+	}
+	
+	protected boolean sendToPlayer(String player, String msg)
+	{/*
+	 * Wrap the broadcast to player function
+	*/	
+		
 		//Anytime we are working with Bukkit or CraftBukkit, do Error handling!!!	
 		try {
 			Bukkit.getServer().getPlayer(player).sendMessage(msg); // Send msg to player with that name.
@@ -29,10 +41,26 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 			return true;
 	}
 	
-	public SimpleCommandMap getCommandMap() // WARNING MAY RETURN ' null ' ALWAYS CHECK!!!
-	
+	protected boolean consoleInfo(String msg)
 	{
+		try {
+			this.getLogger().info(msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	protected SimpleCommandMap getCommandMap() // WARNING MAY RETURN ' null ' ALWAYS CHECK!!!
+	{
+		/*
+		 *  Hacky reflection based method of working with commands. Bukkit API is too limited!
+		 */
+		
 		SimpleCommandMap cmap = null;
+
+		//Anytime we are working with Bukkit or CraftBukkit, do Error handling!!!
 		try{
 			if(Bukkit.getServer() instanceof CraftServer){
 				final Field f = CraftServer.class.getDeclaredField("commandMap");

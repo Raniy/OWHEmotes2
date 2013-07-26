@@ -1,0 +1,18 @@
+author: Raniy, 10102
+database: false
+description: "Provides an easy to use method for players to emote, and staff/moderators to add and remove emotes."
+main: info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0
+name: OWHEmotes2_0
+startup: postworld
+url: https://github.com/Raniy/OWHEmotes2
+version: 0.0.1
+depend: [Vault]
+commands:
+    addemote:
+        description: "Adds an Emote."
+        usage: "/addemote <style(third=0,first=1,p2p=2)> <message>"
+		aliases: [ae]
+	deleteemote:
+		description: "Removes an Emote."
+		usage: "/deleteemote <command/name>"  
+		aliases: [de]

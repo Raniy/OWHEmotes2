@@ -56,7 +56,7 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 		return true;
 	}
 	
-	protected SimpleCommandMap getCommandMap() // WARNING MAY RETURN ' null ' ALWAYS CHECK!!!
+	public protected SimpleCommandMap getCommandMap() // WARNING MAY RETURN ' null ' ALWAYS CHECK!!!
 	{	/*
 		 *  Hacky reflection based method of working with CraftBukkit commands. Bukkit API is too limited!
 		 */

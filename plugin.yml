@@ -5,7 +5,7 @@ main: info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0
 name: OWHEmotes2_0
 startup: postworld
 url: https://github.com/Raniy/OWHEmotes2
-version: 0.0.1
+version: 0.0.2
 depend: [Vault]
 commands:
     addemote:

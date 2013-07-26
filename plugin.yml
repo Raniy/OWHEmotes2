@@ -11,8 +11,8 @@ commands:
     addemote:
         description: "Adds an Emote."
         usage: "/addemote <style(third=0,first=1,p2p=2)> <message>"
-		aliases: [ae]
-	deleteemote:
-		description: "Removes an Emote."
-		usage: "/deleteemote <command/name>"  
-		aliases: [de]
+        aliases: [ae]
+    deleteemote:
+        description: "Removes an Emote."
+        usage: "/deleteemote <command/name>"  
+        aliases: [de]

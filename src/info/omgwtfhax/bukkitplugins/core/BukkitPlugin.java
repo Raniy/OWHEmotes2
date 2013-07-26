@@ -1,4 +1,4 @@
-package info.omgwthax.bukkitplugins.owhemotes;
+package info.omgwtfhax.bukkitplugins.core;
 
 import org.bukkit.Bukkit;
 

@@ -30,6 +30,10 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		
 		this.setMode(this.getModeFromConfig());
 		
+		// For Testing ONLY add a default Emote to the list.
+		this.myEmotes.add(new Emote());
+		
+		
 		// Make sure Vault is working...
 		if(!(this.setupPermissions())) this.consoleInfo("Failed to setup Vault Permisions...");
 		if(!(this.setupEconomy())) this.consoleInfo("Failed to setup Vault Economy...");
@@ -103,7 +107,12 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	
 	private void addEmotesToConfig()
 	{
-		// TODO Add the current list of Emotes to the Config.yml file
+		this.getMyConfig().set("owh.emotes.list", this.getMyEmotes());
+		/* for(Emote emote:this.myEmotes) // Loop through all currently loaded Emotes.
+		{
+			
+		}
+		*/
 	}
 
 	public void setMode(Mode mode)

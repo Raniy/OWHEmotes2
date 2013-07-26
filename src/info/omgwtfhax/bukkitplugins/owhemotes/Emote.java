@@ -36,6 +36,11 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 		this.setMessage((String) map.get(serializedMessage));
 		this.setStyle((Emote.Style) map.get(serializedStyle));
 	}
+	
+	//Empty constructor that will return a default Emote.
+	public Emote() {
+		// Yay for needing to exist for no good reason!
+	}
 
 	// Getters and Setters
 	public String getCommand()

@@ -1,4 +1,5 @@
 *.class
+*.yml
 
 # Package Files #
 *.jar

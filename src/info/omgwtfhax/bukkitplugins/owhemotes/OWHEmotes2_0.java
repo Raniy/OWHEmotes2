@@ -37,21 +37,6 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 
 	}
 
-	private void startCommanHandler() {
-		// First: Make sure we are listening for our Add and Remove emote commands. Those being basic Bukkit style thingies it should be easy.
-		
-		// Second Figure out which mode we are in
-		switch(this.getMode())
-		{
-			case HARD: // Yay, we like it HARD! 
-				// Do whatever we do to listen for Emotes in Hard mode
-		
-			case SOFT:	// Eww... SOFT is for Nublets that only use Bukkit API to do things!
-				// Start a PreCommand Event listener to catch people trying to do Emotes.
-		}
-		
-	}
-
 	// Plugin Unloading
 	@Override
 	public void onDisable()
@@ -68,7 +53,21 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	}
 	
 	// Plugin Logic
-	
+	private void startCommanHandler() {
+		// First: Make sure we are listening for our Add and Remove emote commands. Those being basic Bukkit style thingies it should be easy.
+		
+		// Second Figure out which mode we are in
+		switch(this.getMode())
+		{
+			case HARD: // Yay, we like it HARD! 
+				// Do whatever we do to listen for Emotes in Hard mode
+		
+			case SOFT:	// Eww... SOFT is for Nublets that only use Bukkit API to do things!
+				// Start a PreCommand Event listener to catch people trying to do Emotes.
+		}
+		
+	}
+
 	// Getters and Setters
 	private List<String> getEmotesfromConfig()
 	{

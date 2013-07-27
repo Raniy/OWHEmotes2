@@ -16,3 +16,7 @@ commands:
         description: "Removes an Emote."
         usage: "/deleteemote <command/name>"  
         aliases: [de]
+    listemotes:
+        description: "Removes an Emote."
+        usage: "/listemotes [character]""  
+        aliases: [le]

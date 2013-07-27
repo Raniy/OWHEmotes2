@@ -3,7 +3,6 @@ package info.omgwtfhax.bukkitplugins.owhemotes;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin{
 	public enum Mode 
 	{ 
@@ -15,6 +14,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	
 	// List of Emotes
 	private List<Emote> myEmotes = null;
+	
+	// Base Permission Node
+	private String nodeBase = "omgwtfhax.emotes";
+	private String nodeMod = nodeBase + ".mod";
+	
 	
 	// Plugin Loading 
 	@Override
@@ -76,6 +80,21 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		}
 		
 	}
+	
+	public boolean doEmoteByPlayer(String player,String emoteCommand)
+	{
+		// Iterate through the list of valid commands, see if this is one.
+		for(Emote emote:this.myEmotes)
+		{
+			if(emote.getCommand().equalsIgnoreCase(emoteCommand))
+			{
+				if(playerHasNode(player,nodeBase+"."+emote.getCommand().toLowerCase()));
+				
+			}
+		}
+		
+		return false;
+	}
 
 	// Getters and Setters
 	private List<String> getEmotesfromConfig()
@@ -108,16 +127,21 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	private void addEmotesToConfig()
 	{
 		this.getMyConfig().set("owh.emotes.list", this.getMyEmotes());
-		/* for(Emote emote:this.myEmotes) // Loop through all currently loaded Emotes.
-		{
-			
-		}
-		*/
+		
 	}
 
 	public void setMode(Mode mode)
 	{
 		this.mode = mode;
 	}
+
+	public String getNodeMod() {
+		return nodeMod;
+	}
+
+	public void setNodeMod(String nodeMod) {
+		this.nodeMod = nodeMod;
+	}
+
 	
 }

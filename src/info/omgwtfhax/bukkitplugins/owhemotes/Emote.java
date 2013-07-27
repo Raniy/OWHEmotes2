@@ -3,6 +3,7 @@ package info.omgwtfhax.bukkitplugins.owhemotes;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.SerializableAs;
 
 public class Emote implements org.bukkit.configuration.serialization.ConfigurationSerializable{ // Class to contain data about any given emote.
@@ -42,6 +43,19 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 		// Yay for needing to exist for no good reason!
 	}
 
+	// Logic!
+	public String getOutputMessage(String player)
+	{
+		if(this.getStyle() == Emote.Style.THIRD)//Third Person processing
+		{
+			return(Bukkit.getServer().getPlayer(player).getDisplayName() + " " + this.getMessage());
+		}
+		
+		return null;
+	}
+	
+	
+	
 	// Getters and Setters
 	public String getCommand()
 	{

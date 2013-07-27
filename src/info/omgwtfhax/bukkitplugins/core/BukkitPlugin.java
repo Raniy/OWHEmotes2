@@ -53,6 +53,21 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 			return true;
 	}
 	
+	public boolean sendToAll(String msg)
+	{	/*
+	 	 *Wrap the broadcast function
+	 	 */
+		
+		try{
+			this.getServer().broadcastMessage(msg);
+		} catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
 	protected boolean consoleInfo(String msg)
 	{	/* 
 	 	 *	Wrapper for Bukkits built in Console Messaging

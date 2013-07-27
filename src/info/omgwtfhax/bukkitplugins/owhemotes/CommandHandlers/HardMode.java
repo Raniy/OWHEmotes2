@@ -8,7 +8,6 @@ import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
 
 public class HardMode {
 	
-	org.bukkit.command.SimpleCommandMap cmap = null;
 	/*
 	 * In this class we do what we have to do to provide users the best plugin possible.
 	 * 
@@ -24,18 +23,19 @@ public class HardMode {
 	HardMode(OWHEmotes2_0 instance)
 	{
 		myPlugin = instance;
-		cmap = myPlugin.getCommandMap();
 	}
 	
 	//create an EmoteCommand from an emote
-	public void addEmote(Emote emote)
+	public void createEmoteCommand(Emote emote)
 	{
 		//TODO create new EmoteCommand & setup
 	}
 	
 	//unregister EmoteCommand from cmap
-	public void removeEmote(EmoteCommand emoteCommand)
+	public void removeEmoteCommand(EmoteCommand emoteCommand)
 	{
+		org.bukkit.command.SimpleCommandMap cmap = myPlugin.getCommandMap();
+		
 		if(cmap != null)
 			emoteCommand.unregister(cmap);
 	}
@@ -43,22 +43,31 @@ public class HardMode {
 	private class EmoteCommand extends Command{		
 		//Used to create a command using the info of an emote
 		
-		org.bukkit.command.CommandExecutor exe = myPlugin;
+		Emote emote = null;
 
 		protected EmoteCommand(Emote emote) 
 		{
 			super(emote.getCommand());
+			this.emote = emote;
+			
+			org.bukkit.command.SimpleCommandMap cmap = myPlugin.getCommandMap();
 			
 			if(cmap != null)
-			{
-				this.register(cmap);
-			}
+				this.register(myPlugin.getCommandMap());
 		}
 
 		@Override
 		public boolean execute(CommandSender sender, String commandLabel, String[] args) 
-		{				
-				return exe.onCommand(sender, this, commandLabel, args);
+		{
+			if (emote.getStyle() == Emote.Style.FIRST) {
+				//TODO
+			} else if (emote.getStyle() == Emote.Style.THIRD) {
+				//TODO
+			} else if (emote.getStyle() == Emote.Style.P2P) {
+				//TODO
+			}
+			
+			return false;
 		}
 		
 	}

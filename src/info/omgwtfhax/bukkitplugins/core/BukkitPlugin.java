@@ -123,10 +123,16 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
     public boolean playerHasNode(String player, String node)
     {
     	// Check Vault
-    	if(BukkitPlugin.permission.has(Bukkit.getServer().getPlayer(player), node)) return true;
+    	if(BukkitPlugin.permission != null) // Always check for null!
+    	{
+    		if(BukkitPlugin.permission.has(Bukkit.getServer().getPlayer(player), node)) return true;
+    	}
     	
     	// Check SuperPerms
     	if(Bukkit.getServer().getPlayer(player).hasPermission(node)) return true;
+    	
+    	// For now, Ops always have permission.
+    	if(Bukkit.getServer().getPlayer(player).isOp()) return true;
     	
     	// Return False
     	return false;

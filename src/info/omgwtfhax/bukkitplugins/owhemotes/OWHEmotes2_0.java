@@ -17,7 +17,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	
 	// Base Permission Node
 	private String nodeBase = "omgwtfhax.emotes";
-	private String nodeMod = nodeBase + ".mod";
+	private String nodeMod = getNodeBase() + ".mod";
 	
 	
 	// Plugin Loading 
@@ -81,20 +81,23 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		
 	}
 	
-	public boolean doEmoteByPlayer(String player,String emoteCommand)
+	/*public boolean doEmoteByPlayer(String player,String emoteCommand)
 	{
 		// Iterate through the list of valid commands, see if this is one.
 		for(Emote emote:this.myEmotes)
 		{
 			if(emote.getCommand().equalsIgnoreCase(emoteCommand))
 			{
-				if(playerHasNode(player,nodeBase+"."+emote.getCommand().toLowerCase()));
+				if(playerHasNode(player,nodeBase+"."+emote.getCommand().toLowerCase()))
+				{
+					
+				}
 				
 			}
 		}
 		
 		return false;
-	}
+	}*/
 
 	// Getters and Setters
 	private List<String> getEmotesfromConfig()
@@ -141,6 +144,14 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 
 	public void setNodeMod(String nodeMod) {
 		this.nodeMod = nodeMod;
+	}
+
+	public String getNodeBase() {
+		return nodeBase;
+	}
+
+	public void setNodeBase(String nodeBase) {
+		this.nodeBase = nodeBase;
 	}
 
 	

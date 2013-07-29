@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import info.omgwtfhax.bukkitplugins.owhemotes.Emote;
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
 
 public class SoftMode implements org.bukkit.event.Listener{
@@ -26,6 +27,20 @@ public class SoftMode implements org.bukkit.event.Listener{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onCommand(PlayerCommandPreprocessEvent event)
 	{
-		
+		String cmd = event.getMessage();
+		for (Emote e:myPlugin.getMyEmotes())
+		{
+			if(e.getCommand().equalsIgnoreCase(cmd));
+			{
+				//Found a potential MATCH!
+				if(myPlugin.playerHasNode(event.getPlayer().getName(),myPlugin.getNodeBase() + "." + e.getCommand().toLowerCase()))
+				{
+					// They are allowed to do it!
+					// For now ignore any extra processing, assume all emotes are in third person.
+					this.myPlugin.sendToAll(e.getOutputMessage(event.getPlayer().getName()));
+				}
+			}
+			
+		}
 	}
 }

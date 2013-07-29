@@ -1,5 +1,7 @@
 package info.omgwtfhax.bukkitplugins.owhemotes;
 
+import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.SoftMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +79,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		} else if((this.getMode() == Mode.SOFT))
 		{
 			// Start SOFT Mode command Handler
+			getServer().getPluginManager().registerEvents(new SoftMode(this), this);
 		}
 		
 	}

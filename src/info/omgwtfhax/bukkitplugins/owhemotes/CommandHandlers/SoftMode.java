@@ -19,7 +19,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 	
 	OWHEmotes2_0 myPlugin = null;
 	
-	SoftMode(OWHEmotes2_0 instance)
+	public SoftMode(OWHEmotes2_0 instance)
 	{
 		myPlugin = instance;	
 	}

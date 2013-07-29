@@ -1,8 +1,12 @@
 package info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
 
-public class SoftMode {
+public class SoftMode implements org.bukkit.event.Listener{
 	/*
 	 * This class provides a means to listen for and add commands using Bukkit API only.
 	 * 
@@ -16,6 +20,12 @@ public class SoftMode {
 	
 	SoftMode(OWHEmotes2_0 instance)
 	{
-		myPlugin = instance;
+		myPlugin = instance;	
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void onCommand(PlayerCommandPreprocessEvent event)
+	{
+		
 	}
 }

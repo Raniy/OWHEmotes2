@@ -4,11 +4,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.entity.Player;
 
 import info.omgwtfhax.bukkitplugins.owhemotes.Emote;
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
 
-public class HardMode {
+public class HardMode implements org.bukkit.command.CommandExecutor{
 	
 	/*
 	 * In this class we do what we have to do to provide users the best plugin possible.
@@ -21,12 +22,10 @@ public class HardMode {
 	 */
 	
 	OWHEmotes2_0 myPlugin = null;
-	BaseCommands myExecutor = null;
 	
-	HardMode(OWHEmotes2_0 instance, BaseCommands exe)
+	HardMode(OWHEmotes2_0 instance)
 	{
 		myPlugin = instance;
-		myExecutor = exe;
 	}
 	
 	//create a new command with name of emote. Returns true if successfully made
@@ -46,7 +45,7 @@ public class HardMode {
 						return false;
 				}
 				
-				return cmap.register(emote, new EmoteCommand(emote, myExecutor));
+				return cmap.register(emote, new EmoteCommand(emote, this));
 			
 			}
 			
@@ -83,6 +82,31 @@ public class HardMode {
 		return false;
 	}
 	
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+	{
+		
+		if(sender instanceof Player){
+
+			//iterate through emotes, looking for a match
+			for(Emote e: myPlugin.getMyEmotes()){
+				
+				if(e.getCommand().equalsIgnoreCase(command.getName())){
+					
+					//Check if sender has permission for emote
+					if(myPlugin.playerHasNode(sender.getName(), myPlugin.getNodeBase() + "." + e.getCommand().toLowerCase())) {
+					
+						myPlugin.sendToAll(e.getOutputMessage(sender.getName()));
+						return true;
+						
+					}
+				}
+			}
+		}
+		
+		return false; //If no match, return false
+	}
+	
 	private class EmoteCommand extends Command{		
 		//Used to create a new command
 		
@@ -97,7 +121,6 @@ public class HardMode {
 		@Override
 		public boolean execute(CommandSender sender, String commandLabel, String[] args) 
 		{
-			//send through BaseCommands' onCommand function
 			return myExecutor.onCommand(sender, this, commandLabel, args);
 		}
 		

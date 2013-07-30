@@ -1,7 +1,9 @@
 package info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers;
 
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.SimpleCommandMap;
 
 import info.omgwtfhax.bukkitplugins.owhemotes.Emote;
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
@@ -19,55 +21,84 @@ public class HardMode {
 	 */
 	
 	OWHEmotes2_0 myPlugin = null;
+	BaseCommands myExecutor = null;
 	
-	HardMode(OWHEmotes2_0 instance)
+	HardMode(OWHEmotes2_0 instance, BaseCommands exe)
 	{
 		myPlugin = instance;
+		myExecutor = exe;
 	}
 	
-	//create an EmoteCommand from an emote
-	public void createEmoteCommand(Emote emote)
+	//create a new command with name of emote. Returns true if successfully made
+	public boolean createCommand(String emote)
 	{
-		//TODO create new EmoteCommand & setup
-	}
-	
-	//unregister EmoteCommand from cmap
-	public void removeEmoteCommand(EmoteCommand emoteCommand)
-	{
-		org.bukkit.command.SimpleCommandMap cmap = myPlugin.getCommandMap();
 		
-		if(cmap != null)
-			emoteCommand.unregister(cmap);
+		try{
+		
+			SimpleCommandMap cmap = myPlugin.getCommandMap();
+			
+			//if cmap exists, register (add) command to it
+			if(cmap != null){
+				
+				//Make sure the emote isn't already registered
+				if(cmap.getCommand(emote) != null){				
+					if(cmap.getCommand(emote).isRegistered())
+						return false;
+				}
+				
+				return cmap.register(emote, new EmoteCommand(emote, myExecutor));
+			
+			}
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	//unregister command from command map. Returns true if successfully removed
+	public boolean removeCommand(String emote)
+	{
+		try{
+			SimpleCommandMap cmap = myPlugin.getCommandMap();
+			
+			//If cmap exists, unregister (remove) command from it
+			if(cmap != null){
+				
+				for(Emote e : myPlugin.getMyEmotes()){
+					
+					//Check that the specified emote is an actual emote,
+					//otherwise any command may be deleted
+					if(e.getCommand().equalsIgnoreCase(emote)){
+						
+						return cmap.getCommand(emote).unregister(cmap);
+					}
+				}
+			}
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 	private class EmoteCommand extends Command{		
-		//Used to create a command using the info of an emote
+		//Used to create a new command
 		
-		Emote emote = null;
+		CommandExecutor myExecutor = null;
 
-		protected EmoteCommand(Emote emote) 
+		protected EmoteCommand(String emote, CommandExecutor exe) 
 		{
-			super(emote.getCommand());
-			this.emote = emote;
-			
-			org.bukkit.command.SimpleCommandMap cmap = myPlugin.getCommandMap();
-			
-			if(cmap != null)
-				this.register(myPlugin.getCommandMap());
+			super(emote);
+			myExecutor = exe;
 		}
 
 		@Override
 		public boolean execute(CommandSender sender, String commandLabel, String[] args) 
 		{
-			if (emote.getStyle() == Emote.Style.FIRST) {
-				//TODO
-			} else if (emote.getStyle() == Emote.Style.THIRD) {
-				//TODO
-			} else if (emote.getStyle() == Emote.Style.P2P) {
-				//TODO
-			}
-			
-			return false;
+			//send through BaseCommands' onCommand function
+			return myExecutor.onCommand(sender, this, commandLabel, args);
 		}
 		
 	}

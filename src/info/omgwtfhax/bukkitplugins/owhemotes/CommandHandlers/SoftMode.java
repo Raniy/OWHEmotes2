@@ -37,7 +37,8 @@ public class SoftMode implements org.bukkit.event.Listener{
 				{
 					// They are allowed to do it!
 					// For now ignore any extra processing, assume all emotes are in third person.
-					this.myPlugin.sendToAll(e.getOutputMessage(event.getPlayer().getName()));
+					this.myPlugin.sendToAll(e.getOutputMessage(event.getPlayer().getName(), event.getMessage())); // Pass in the arguments, even if they may be null.
+					
 				}
 			}
 			

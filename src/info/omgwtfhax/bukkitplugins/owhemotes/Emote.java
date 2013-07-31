@@ -44,16 +44,32 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 	}
 
 	// Logic!
-	public String getOutputMessage(String player)
+	public String getOutputMessage(String player, String args)
 	{
-		if(this.getStyle() == Emote.Style.THIRD)//Third Person processing
+		// Determine if there are any arguments being passed.
+		if((args == "") || (args == null)) // No arguments implies no need for further processing.
 		{
-			return(Bukkit.getServer().getPlayer(player).getDisplayName() + " " + this.getMessage());
+			if(this.getStyle() == Emote.Style.THIRD)//Third Person processing
+			{
+				return(Bukkit.getServer().getPlayer(player).getDisplayName() + " " + this.getMessage());
+			}
+		} else {
+			// Arguments, assume an attempt at a P2P emote.
+			// Try to resolve the argument to the name of a target player.
+			String playerName = args.substring(0, args.indexOf(" "));
+			playerName = Bukkit.getServer().getPlayer(playerName).getName(); // Reset variable to be the PROPER name of the target.
+			
+			if (playerName == null) 
+			{
+				// No player found with that name...
+				// TODO: thingie.
+				
+			}
+			
 		}
 		
 		return null;
 	}
-	
 	
 	
 	// Getters and Setters

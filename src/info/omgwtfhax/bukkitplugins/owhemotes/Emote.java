@@ -62,13 +62,19 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 			if (playerName == null) 
 			{
 				// No player found with that name...
-				// TODO: thingie.
+				
+				// Check if player has node for non-player P2P
+				if(OWHEmotes2_0.playerHasNode(player, OWHEmotes2_0.getNodeBase() + ".nonplayer"))
+				{
+					return(Bukkit.getServer().getPlayer(player).getDisplayName() + " " + this.getMessage() + " " + args);
+					
+				}
 				
 			}
 			
 		}
 		
-		return null;
+		return null; // Will return null if sender issued a non-player p2p that they don't have permission for.
 	}
 	
 	

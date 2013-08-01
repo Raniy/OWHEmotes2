@@ -18,7 +18,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	private List<Emote> myEmotes = null;
 	
 	// Base Permission Node
-	private String nodeBase = "omgwtfhax.emotes";
+	private static String NODE_BASE = "omgwtfhax.emotes";
 	private String nodeMod = getNodeBase() + ".mod";
 	
 	
@@ -149,12 +149,12 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		this.nodeMod = nodeMod;
 	}
 
-	public String getNodeBase() {
-		return nodeBase;
+	public static String getNodeBase() {
+		return NODE_BASE;
 	}
 
 	public void setNodeBase(String nodeBase) {
-		this.nodeBase = nodeBase;
+		NODE_BASE = nodeBase;
 	}
 
 	

@@ -59,18 +59,7 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 			String playerName = args.substring(0, args.indexOf(" "));
 			playerName = Bukkit.getServer().getPlayer(playerName).getName(); // Reset variable to be the PROPER name of the target.
 			
-			if (playerName == null) 
-			{
-				// No player found with that name...
-				
-				// Check if player has node for non-player P2P
-				if(OWHEmotes2_0.playerHasNode(player, OWHEmotes2_0.getNodeBase() + ".nonplayer"))
-				{
-					return(Bukkit.getServer().getPlayer(player).getDisplayName() + " " + this.getMessage() + " " + args);
-					
-				}
-				
-			}
+			// TODO handle the string proccesing stuff for a P2p
 			
 		}
 		

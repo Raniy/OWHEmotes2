@@ -1,44 +1,41 @@
 package info.omgwtfhax.bukkitplugins.owhemotes;
 
+import info.omgwtfhax.bukkitplugins.core.PermissionNode;
+import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.BaseCommands;
+import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.HardMode;
 import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.SoftMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.Listener;
+
 public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin{
-	public enum Mode 
-	{ 
-		HARD, SOFT; 
-	}
 	
-	// Default MODE
-	private Mode mode = Mode.HARD;
+	private List<String> defaultCommands = new ArrayList<String>();		
+	
+	// Default Modes
+	private boolean hardMode = false; // if True then the CraftBukkit kludge will be used. NOT SUGGESTED bY THE BUKKIT DEV TEAM!!! EH, Screw em.
+	private boolean noConfig = false; // if True then do not ever store Emotes. They will disappear at restart. DO NOT COMBINE WITH THE FOLLOWING!
+	private boolean defaultEmotes = true; // if False then the default emotes will never be written into the memory. DO NOT COMBINE WITH THE ABOVE!
 	
 	// List of Emotes
 	private List<Emote> myEmotes = null;
 	
-	// Base Permission Node
-	private static String NODE_BASE = "omgwtfhax.emotes";
-	private String nodeMod = getNodeBase() + ".mod";
-	
-	
+	// Default Commands Handler
+	private BaseCommands baseCommands = null;
+	private SoftMode softModeListener = null;
+	private HardMode hardModeExecutor = null;
+
 	// Plugin Loading 
 	@Override
 	public void onEnable()
 	{
 		this.consoleInfo("Enabling...");
 		
-		// Instance null variables
-		this.myEmotes = new ArrayList<Emote>();
-		
-		// Load variables from Config
-		this.getEmotesfromConfig();
-		
-		this.setMode(this.getModeFromConfig());
-		
-		// For Testing ONLY add a default Emote to the list.
-		this.myEmotes.add(new Emote());
-		
+		// Process Config
+		this.processConfig(this.getMyConfig());
 		
 		// Make sure Vault is working...
 		if(!(this.setupPermissions())) this.consoleInfo("Failed to setup Vault Permisions...");
@@ -52,16 +49,15 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 
 	}
 
+
+
 	// Plugin Unloading
 	@Override
 	public void onDisable()
 	{
 		this.consoleInfo("Disabling...");
 		
-		// Add any emotes that are new to the list in Memory to the list in the Config.
-		this.addEmotesToConfig();
-		
-		// Save Config.
+		// Save Config. 
 		this.saveMyConfig();
 		
 		this.consoleInfo("Disabled.");
@@ -69,55 +65,166 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	
 	// Plugin Logic
 	public void startCommanHandler() {
-		// First: Make sure we are listening for our Add and Remove emote commands. Those being basic Bukkit style thingies it should be easy.
+		// First: Make sure we are listening for our Default commands.
+		for(String cmd:this.getDefaultCommands())
+		{
+			this.getCommand(cmd).setExecutor(baseCommands);
+		}
 		
 		// Second Figure out which mode we are in
-		if((this.getMode() == Mode.HARD))
+		if((this.isHardMode() == false))
 		{
 			// Start HARD Mode command Handler
+			for(Emote emote:this.getMyEmotes())
+			{
+				this.getCommand(emote.getCommand()).setExecutor(this.getHardModeExecutor());
+			}
+		} else {
+			// Start SOFT Mode command listener
+			getServer().getPluginManager().registerEvents(this.getSoftModeListener(),this);
+		}
+		
+	}
+
+	private void processConfig(FileConfiguration myConfig)
+	{	
+		// Instance null variables
+		this.myEmotes = new ArrayList<Emote>();
+		this.baseCommands = new BaseCommands(this);
+		this.hardModeExecutor = new HardMode(this);
+		this.softModeListener = new SoftMode(this);
+		
+		// Add our default commands to our internal list.
+		defaultCommands.add("addemote");
+		defaultCommands.add("deleteemote");
+		defaultCommands.add("listemotes");
+		defaultCommands.add("reloademotes");
+		
+		// Setup basic permissions.
+		getPermissionNodes().put("base",new PermissionNode("omgwtfhax.emotes"));
+		getPermissionNodes().put("moderator",new PermissionNode("omgwtfhax.emotes.moderator"));
+		getPermissionNodes().put("reload",new PermissionNode("omgwtfhax.emotes.reload"));
 			
-		} else if((this.getMode() == Mode.SOFT))
+		// Load Modes from Config
+		this.getModesFromConfig();
+		
+		// Load Emotes
+		this.getEmotes();
+	}
+
+	private List<Emote> getDefaultEmotes()
+	{
+		List<Emote> emotes = new ArrayList<Emote>();
+		if(this.isDefaultEmotes())
 		{
-			// Start SOFT Mode command Handler
-			getServer().getPluginManager().registerEvents(new SoftMode(this), this);
+			// Loading default Emotes into List!
+			
+		} 
+		
+		// DEFAULT EMOTE EMERGENCY!!!
+		if( (this.isNoConfig()) && (!(this.isDefaultEmotes())) )
+		{
+			emotes.add(new Emote()); // Make sure we always have atleast one emote!
+		}
+		
+		return emotes;
+	}
+	
+	private void getEmotes() 
+	{	
+		if(!(this.isNoConfig())) // Check if we are loading stored emotes. 
+		{
+			// Allowed to load emotes from Config
+			getEmotesFromConfig();
+			
+		}
+		
+		getDefaultEmotes();
+
+	}
+	
+	public void addEmoteToList(Emote emote)
+	{
+		// Check through list for Emote
+		for(Emote em:this.getMyEmotes())
+		{
+			if((em.getCommand().contentEquals(emote.getCommand())) && (em.getStyle().equals(emote.getStyle())))  // Emote is in the list.
+			{
+				// Duplicate Emote!
+				return;
+			} else {
+				// Add this emote to the list.
+				this.getMyEmotes().add(emote);
+			}
 		}
 		
 	}
 	
-	/*public boolean doEmoteByPlayer(String player,String emoteCommand)
-	{
-		// Iterate through the list of valid commands, see if this is one.
-		for(Emote emote:this.myEmotes)
-		{
-			if(emote.getCommand().equalsIgnoreCase(emoteCommand))
-			{
-				if(playerHasNode(player,nodeBase+"."+emote.getCommand().toLowerCase()))
-				{
-					
-				}
-				
-			}
-		}
-		
-		return false;
-	}*/
-
 	// Getters and Setters
-	private List<String> getEmotesfromConfig()
+	private void getModesFromConfig() 
+	{
+		this.setHardMode(this.getMyConfig().getBoolean("OWH.Emotes.Use_CraftBukkit_Reflection_Or_BukkitAPI", this.isHardMode()));
+		this.setNoConfig(this.getMyConfig().getBoolean("OWH.Emotes.EmoteSaving",this.isNoConfig()));
+		this.setDefaultEmotes(this.getMyConfig().getBoolean("OWH.",this.isDefaultEmotes()));
+	}
+	
+	private List<String> getEmotesFromConfig()
 	{
 		// TODO Get the current list of Emotes from the Config.yml file	
 		return null;
 	}
 	
-	private Mode getModeFromConfig()
-	{
-		// TODO Auto-generated method stub
-		return null;
+	public BaseCommands getBaseCommands() {
+		return baseCommands;
 	}
-	
-	public Mode getMode()
+
+
+
+	public HardMode getHardModeExecutor() {
+		return hardModeExecutor;
+	}
+
+
+
+	public void setHardMode(boolean hardMode) {
+		this.hardMode = hardMode;
+	}
+
+
+
+	public void setBaseCommands(BaseCommands baseCommands) {
+		this.baseCommands = baseCommands;
+	}
+
+
+
+	public void setSoftModeListener(SoftMode softModeListener) {
+		this.softModeListener = softModeListener;
+	}
+
+
+
+	public void setHardModeExecutor(HardMode hardModeExecutor) {
+		this.hardModeExecutor = hardModeExecutor;
+	}
+
+
+
+	public List<String> getDefaultCommands() {
+		return defaultCommands;
+	}
+
+
+
+	public void setDefaultCommands(List<String> defaultCommands) {
+		this.defaultCommands = defaultCommands;
+	}
+
+
+
+	public boolean isHardMode()
 	{
-		return mode;
+		return hardMode;
 	}
 	
 	public List<Emote> getMyEmotes()
@@ -130,32 +237,34 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		this.myEmotes = myEmotes;
 	}
 	
+	@SuppressWarnings("unused") // Needs to be overhauled
+	// TODO: Overhaul to not save Defaults. 
 	private void addEmotesToConfig()
 	{
+		// First remove any Defaults...
 		this.getMyConfig().set("owh.emotes.list", this.getMyEmotes());
 		
-	}
-
-	public void setMode(Mode mode)
-	{
-		this.mode = mode;
-	}
-
-	public String getNodeMod() {
-		return nodeMod;
-	}
-
-	public void setNodeMod(String nodeMod) {
-		this.nodeMod = nodeMod;
-	}
-
-	public static String getNodeBase() {
-		return NODE_BASE;
-	}
-
-	public void setNodeBase(String nodeBase) {
-		NODE_BASE = nodeBase;
-	}
-
+	} 
 	
+	public Listener getSoftModeListener() {
+		return softModeListener;
+	}
+	
+	// Mode Setters/Getters
+	public boolean isNoConfig() {
+		return noConfig;
+	}
+
+	public void setNoConfig(boolean noConfig) {
+		this.noConfig = noConfig;
+	}
+
+	public boolean isDefaultEmotes() {
+		return defaultEmotes;
+	}
+
+	public void setDefaultEmotes(boolean defaultEmotes) {
+		this.defaultEmotes = defaultEmotes;
+	}
+
 }

@@ -1,7 +1,7 @@
 package info.omgwtfhax.bukkitplugins.core;
 
 import java.lang.reflect.Field;
-
+import java.util.HashMap;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -20,6 +20,10 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 	public static Permission permission = null;
     public static Economy economy = null;
     public static Chat chat = null;
+
+    // Internal list of Permission Nodes!
+    private static HashMap<String,PermissionNode> permissionNodes = new HashMap<String,PermissionNode>();
+    
 	
 	public org.bukkit.configuration.file.FileConfiguration getMyConfig()
 	{	/*
@@ -152,5 +156,14 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
     	// Return False
     	return false;
     }
+
+	public static HashMap<String,PermissionNode> getPermissionNodes() {
+		return permissionNodes;
+	}
+
+	public static void setPermissionNodes(HashMap<String,PermissionNode> permissionNodes) {
+		BukkitPlugin.permissionNodes = permissionNodes;
+	}
+
 
 }

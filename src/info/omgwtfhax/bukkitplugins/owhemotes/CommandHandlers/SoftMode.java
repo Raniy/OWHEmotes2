@@ -33,7 +33,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 			if(e.getCommand().equalsIgnoreCase(cmd));
 			{
 				//Found a potential MATCH!
-				if(OWHEmotes2_0.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getNodeBase() + "." + e.getCommand().toLowerCase()))
+				if(OWHEmotes2_0.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase()))
 				{
 					// They are allowed to do it!
 					// For now ignore any extra processing, assume all emotes are in third person.

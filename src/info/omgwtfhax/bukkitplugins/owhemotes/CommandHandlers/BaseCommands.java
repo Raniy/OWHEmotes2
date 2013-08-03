@@ -1,6 +1,5 @@
 package info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers;
 
-
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
 
 import org.bukkit.command.Command;
@@ -16,6 +15,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		myPlugin = instance;
 	}
 	
+	@SuppressWarnings("static-access")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
@@ -28,7 +28,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 				return true;
 			}
 			
-			if(!(myPlugin.playerHasNode(((Player) sender).getName(),myPlugin.getNodeMod()))) return false; // No Permission!
+			if(!(myPlugin.playerHasNode(((Player) sender).getName(),OWHEmotes2_0.getPermissionNodes().get("moderator").getMyNode()))) return false; // No Permission!
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{
@@ -40,6 +40,11 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			{
 				doDeleteByPlayer(label, label, label, null);
 				return true;
+			}
+			
+			if(!(myPlugin.playerHasNode(((Player) sender).getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
+			{
+				// Reload plugin
 			}
 			
 		} else {

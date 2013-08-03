@@ -23,7 +23,7 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 	
 	OWHEmotes2_0 myPlugin = null;
 	
-	HardMode(OWHEmotes2_0 instance)
+	public HardMode(OWHEmotes2_0 instance)
 	{
 		myPlugin = instance;
 	}
@@ -56,7 +56,7 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 	}
 	
 	//unregister command from command map. Returns true if successfully removed
-	public boolean removeCommand(String emote)
+	public boolean removeCommand(Emote emote)
 	{
 		try{
 			SimpleCommandMap cmap = myPlugin.getCommandMap();
@@ -68,9 +68,11 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 					
 					//Check that the specified emote is an actual emote,
 					//otherwise any command may be deleted
-					if(e.getCommand().equalsIgnoreCase(emote)){
-						
-						return cmap.getCommand(emote).unregister(cmap);
+					if((e.getCommand().contentEquals(emote.getCommand())) && (e.getStyle().equals(emote.getStyle())))
+					{
+					    // This is our Emote, lets get rid of it.
+						cmap.getCommand(e.getCommand()).unregister(cmap);
+						return true;
 					}
 				}
 			}
@@ -94,7 +96,7 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 				if(e.getCommand().equalsIgnoreCase(command.getName())){
 					
 					//Check if sender has permission for emote
-					if(OWHEmotes2_0.playerHasNode(sender.getName(), OWHEmotes2_0.getNodeBase() + "." + e.getCommand().toLowerCase())) {
+					if(OWHEmotes2_0.playerHasNode(sender.getName(), OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase())) {
 						
 						String outputMessage = e.getOutputMessage(sender.getName(), args[0]);
 					

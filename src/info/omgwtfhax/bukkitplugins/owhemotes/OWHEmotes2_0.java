@@ -8,10 +8,32 @@ import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.SoftMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 
 public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin{
+	public class EmoteCommand extends Command{		
+		//Used to create a new command
+		
+		CommandExecutor myExecutor = null;
+
+		protected EmoteCommand(String emote, CommandExecutor exe) 
+		{
+			super(emote);
+			myExecutor = exe;
+		}
+
+		@Override
+		public boolean execute(CommandSender sender, String commandLabel, String[] args) 
+		{
+			return myExecutor.onCommand(sender, this, commandLabel, args);
+		}
+		
+	}
 	
 	private List<String> defaultCommands = new ArrayList<String>();		
 	
@@ -158,6 +180,33 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			}
 		}
 		
+	}
+	// Create a new command with name of emote. Returns true if successfully made
+	public boolean createEmoteCommand(Emote emote)
+	{
+		
+		try{
+		
+			SimpleCommandMap cmap = getCommandMap();
+			
+			//if cmap exists, register (add) command to it
+			if(cmap != null){
+				
+				//Make sure the emote isn't already registered
+				if(cmap.getCommand(emote.getCommand()) != null){				
+					if(cmap.getCommand(emote.getCommand()).isRegistered())
+						return false;
+				}
+				
+				cmap.register(emote.getCommand(),new EmoteCommand(emote.getCommand(), this.getHardModeExecutor()));
+				return true;
+			
+			}
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	// Getters and Setters

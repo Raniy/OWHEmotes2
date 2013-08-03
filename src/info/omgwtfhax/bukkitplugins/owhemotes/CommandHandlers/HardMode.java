@@ -1,7 +1,6 @@
 package info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
@@ -26,33 +25,6 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 	public HardMode(OWHEmotes2_0 instance)
 	{
 		myPlugin = instance;
-	}
-	
-	//create a new command with name of emote. Returns true if successfully made
-	public boolean createCommand(String emote)
-	{
-		
-		try{
-		
-			SimpleCommandMap cmap = myPlugin.getCommandMap();
-			
-			//if cmap exists, register (add) command to it
-			if(cmap != null){
-				
-				//Make sure the emote isn't already registered
-				if(cmap.getCommand(emote) != null){				
-					if(cmap.getCommand(emote).isRegistered())
-						return false;
-				}
-				
-				return cmap.register(emote, new EmoteCommand(emote, this));
-			
-			}
-			
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-		return false;
 	}
 	
 	//unregister command from command map. Returns true if successfully removed
@@ -115,23 +87,6 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 		return false; //If no match, return false
 	}
 	
-	private class EmoteCommand extends Command{		
-		//Used to create a new command
-		
-		CommandExecutor myExecutor = null;
 
-		protected EmoteCommand(String emote, CommandExecutor exe) 
-		{
-			super(emote);
-			myExecutor = exe;
-		}
-
-		@Override
-		public boolean execute(CommandSender sender, String commandLabel, String[] args) 
-		{
-			return myExecutor.onCommand(sender, this, commandLabel, args);
-		}
-		
-	}
 
 }

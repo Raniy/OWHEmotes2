@@ -1,4 +1,4 @@
-package info.omgwtfhax.bukkitplugins.owhemotes;
+package info.omgwtfhax.bukkitplugins.owhemotes.emotes;
 
 import java.util.HashMap;
 import java.util.Map;

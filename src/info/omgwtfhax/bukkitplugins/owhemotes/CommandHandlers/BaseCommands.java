@@ -73,22 +73,22 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		return false; // This means we did not handle the command. Only return false if we DONT do anything.
 	}
 
-	private boolean doAddByPlayer(String player,String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.Emote.Style emoteStyle)
+	private boolean doAddByPlayer(String player,String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
 	{
 		return false;
 	}
 	 
-	private boolean doAddByConsole(String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.Emote.Style emoteStyle)
+	private boolean doAddByConsole(String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
 	{
 		return false;
 	}
 
-	private boolean doDeleteByPlayer(String player,String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.Emote.Style emoteStyle)
+	private boolean doDeleteByPlayer(String player,String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
 	{
 		return false;
 	}
 	 
-	private boolean doDeleteByConsole(String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.Emote.Style emoteStyle)
+	private boolean doDeleteByConsole(String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
 	{
 		return false;
 	}

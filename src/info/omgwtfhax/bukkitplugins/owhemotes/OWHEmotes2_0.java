@@ -4,37 +4,17 @@ import info.omgwtfhax.bukkitplugins.core.PermissionNode;
 import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.BaseCommands;
 import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.HardMode;
 import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.SoftMode;
+import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
+import info.omgwtfhax.bukkitplugins.owhemotes.emotes.EmoteCommand;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 
 public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin{
-	public class EmoteCommand extends Command{		
-		//Used to create a new command
-		
-		CommandExecutor myExecutor = null;
-
-		protected EmoteCommand(String emote, CommandExecutor exe) 
-		{
-			super(emote);
-			myExecutor = exe;
-		}
-
-		@Override
-		public boolean execute(CommandSender sender, String commandLabel, String[] args) 
-		{
-			return myExecutor.onCommand(sender, this, commandLabel, args);
-		}
-		
-	}
-	
 	private List<String> defaultCommands = new ArrayList<String>();		
 	
 	// Default Modes
@@ -71,8 +51,6 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 
 	}
 
-
-
 	// Plugin Unloading
 	@Override
 	public void onDisable()
@@ -86,7 +64,8 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	}
 	
 	// Plugin Logic
-	public void startCommanHandler() {
+	public void startCommanHandler()
+	{	
 		// First: Make sure we are listening for our Default commands.
 		for(String cmd:this.getDefaultCommands())
 		{
@@ -94,7 +73,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		}
 		
 		// Second Figure out which mode we are in
-		if((this.isHardMode() == false))
+		if(this.isHardMode())
 		{
 			// Start HARD Mode command Handler
 			for(Emote emote:this.getMyEmotes())
@@ -198,7 +177,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 						return false;
 				}
 				
-				cmap.register(emote.getCommand(),new EmoteCommand(emote.getCommand(), this.getHardModeExecutor()));
+				cmap.register(emote.getCommand(),new EmoteCommand(emote, this.getHardModeExecutor()));
 				return true;
 			
 			}
@@ -214,7 +193,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	{
 		this.setHardMode(this.getMyConfig().getBoolean("OWH.Emotes.Use_CraftBukkit_Reflection_Or_BukkitAPI", this.isHardMode()));
 		this.setNoConfig(this.getMyConfig().getBoolean("OWH.Emotes.EmoteSaving",this.isNoConfig()));
-		this.setDefaultEmotes(this.getMyConfig().getBoolean("OWH.",this.isDefaultEmotes()));
+		this.setDefaultEmotes(this.getMyConfig().getBoolean("OWH.Emotes.DefaultEmotes",this.isDefaultEmotes()));
 	}
 	
 	private List<String> getEmotesFromConfig()

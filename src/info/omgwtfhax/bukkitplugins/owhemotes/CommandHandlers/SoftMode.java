@@ -4,8 +4,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import info.omgwtfhax.bukkitplugins.owhemotes.Emote;
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
+import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
 
 public class SoftMode implements org.bukkit.event.Listener{
 	/*

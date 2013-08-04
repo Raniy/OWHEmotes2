@@ -5,8 +5,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
 
-import info.omgwtfhax.bukkitplugins.owhemotes.Emote;
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
+import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
 
 public class HardMode implements org.bukkit.command.CommandExecutor{
 	

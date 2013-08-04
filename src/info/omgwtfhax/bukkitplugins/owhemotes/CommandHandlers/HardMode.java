@@ -2,7 +2,6 @@ package info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.entity.Player;
 
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
@@ -25,35 +24,6 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 	public HardMode(OWHEmotes2_0 instance)
 	{
 		myPlugin = instance;
-	}
-	
-	//unregister command from command map. Returns true if successfully removed
-	public boolean removeCommand(Emote emote)
-	{
-		try{
-			SimpleCommandMap cmap = myPlugin.getCommandMap();
-			
-			//If cmap exists, unregister (remove) command from it
-			if(cmap != null){
-				
-				for(Emote e : myPlugin.getMyEmotes()){
-					
-					//Check that the specified emote is an actual emote,
-					//otherwise any command may be deleted
-					if((e.getCommand().contentEquals(emote.getCommand())) && (e.getStyle().equals(emote.getStyle())))
-					{
-					    // This is our Emote, lets get rid of it.
-						cmap.getCommand(e.getCommand()).unregister(cmap);
-						return true;
-					}
-				}
-			}
-			
-		} catch (Exception e){
-			e.printStackTrace();
-		}
-		
-		return false;
 	}
 	
 	@Override

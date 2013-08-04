@@ -188,6 +188,35 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		return false;
 	}
 	
+	//unregister command from command map. Returns true if successfully removed
+	public boolean removeCommand(Emote emote)
+	{
+		try{
+			SimpleCommandMap cmap = this.getCommandMap();
+			
+			//If cmap exists, unregister (remove) command from it
+			if(cmap != null){
+				
+				for(Emote e : this.getMyEmotes()){
+					
+					//Check that the specified emote is an actual emote,
+					//otherwise any command may be deleted
+					if((e.getCommand().contentEquals(emote.getCommand())) && (e.getStyle().equals(emote.getStyle())))
+					{
+					    // This is our Emote, lets get rid of it.
+						cmap.getCommand(e.getCommand()).unregister(cmap);
+						return true;
+					}
+				}
+			}
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 	// Getters and Setters
 	private void getModesFromConfig() 
 	{

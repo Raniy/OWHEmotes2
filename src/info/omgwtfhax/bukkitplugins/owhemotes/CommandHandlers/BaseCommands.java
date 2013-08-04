@@ -1,7 +1,9 @@
 package info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers;
 
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
+import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -75,16 +77,76 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 
 	private boolean doAddByPlayer(String player,String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
 	{
-		return false;
+	
+		try{
+			// initialize new emote that the player has specified
+			Emote emote = new Emote(emoteCommand, emoteMessage, emoteStyle);
+			
+			// Add new emote to our list of emotes
+			myPlugin.addEmoteToList(emote);
+			
+			// Extra shizzle when using HardMode
+			if(myPlugin.isHardMode())
+			{
+				// Create a new command pertaining to the emote
+				myPlugin.createEmoteCommand(emote); 
+				
+				// Tell player their new emote has been made, as well as alert console
+				Bukkit.getPlayer(player).sendMessage("[HardMode] new emote added!");
+				myPlugin.getLogger().info("[HardMode] new emote \"" + emoteCommand + "\" added by " + player);
+			} else 
+			{
+				// Tell player their new emote has been made, as well as alert console
+				Bukkit.getPlayer(player).sendMessage("[SoftMode] new emote added!");
+				myPlugin.getLogger().info("[SoftMode] new emote \"" + emoteCommand + "\" added by " + player);
+			}
+			return true;
+			
+		} catch (Exception e)
+		{
+			return false;
+		}
 	}
 	 
 	private boolean doAddByConsole(String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
 	{
-		return false;
+		//Exact same functionality as doAddByPlayer, with adjustments to respect that it is a console sender.
+		
+		try{
+			// initialize new emote that the console has specified
+			Emote emote = new Emote(emoteCommand, emoteMessage, emoteStyle);
+			
+			// Add new emote to our list of emotes
+			myPlugin.addEmoteToList(emote);
+			
+			// Extra shizzle when using HardMode
+			if(myPlugin.isHardMode())
+			{
+				// Create a new command pertaining to the emote
+				myPlugin.createEmoteCommand(emote); 
+				
+				// Tell console the emote has been successfully created in HardMode
+				myPlugin.getLogger().info("[HardMode] new emote added!");
+			} else 
+			{
+				// Tell console the emote has been successfully created in SoftMode
+				myPlugin.getLogger().info("[SoftMode] new emote added!");
+			}
+			return true;
+			
+		} catch (Exception e)
+		{
+			return false;
+		}
 	}
 
 	private boolean doDeleteByPlayer(String player,String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
 	{
+		try{
+			
+		} catch(Exception e){
+			
+		}
 		return false;
 	}
 	 

@@ -78,7 +78,8 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	private boolean doAddByPlayer(String player,String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
 	{
 	
-		try{
+		try
+		{
 			// initialize new emote that the player has specified
 			Emote emote = new Emote(emoteCommand, emoteMessage, emoteStyle);
 			
@@ -112,7 +113,8 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	{
 		//Exact same functionality as doAddByPlayer, with adjustments to respect that it is a console sender.
 		
-		try{
+		try
+		{
 			// initialize new emote that the console has specified
 			Emote emote = new Emote(emoteCommand, emoteMessage, emoteStyle);
 			
@@ -140,14 +142,37 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		}
 	}
 
-	private boolean doDeleteByPlayer(String player,String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
+	private boolean doDeleteByPlayer(String player, String emoteCommand, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
 	{
-		try{
+		try
+		{
+			Emote emote = null;
 			
-		} catch(Exception e){
+			//iterate through emotes, looking for a match
+			for(Emote e : myPlugin.getMyEmotes())
+			{
+				//Check if emote is what our player is looking for
+				if (e.getCommand().equals(emote.getCommand()) && e.getStyle().equals(emote.getStyle()))
+				{
+					// Found a matching emote! store it in emote variable
+					emote = e;
+				}
+			}
 			
+			if(emote == null) // No matching emote.
+			{
+				Bukkit.getPlayer(player).sendMessage("Given emote does not exist");
+				return false;
+			}
+			
+			//TODO delete emote in whichever modes apply.
+			
+			return true;
+			
+		} catch(Exception e)
+		{
+			return false;	
 		}
-		return false;
 	}
 	 
 	private boolean doDeleteByConsole(String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
@@ -155,14 +180,44 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		return false;
 	}
 	
-	private boolean doListByPlayer(String player)
+	private boolean doListByPlayer(String player) // How dare you add a list emotes, you traitor!
 	{
-		return false;
+		// Exception handling
+		try{
+			
+			// Iterate through stored emotes
+			for(Emote e : myPlugin.getMyEmotes())
+			{
+				// Send the player a message with info about this emote
+				Bukkit.getPlayer(player).sendMessage(e.getCommand() + " - \"" + e.getMessage() + "\"");
+			}
+			
+			return true;
+			
+		} catch (Exception e)
+		{
+			return false;
+		}
 	}
 	 
-	private boolean doListByConsole()
+	private boolean doListByConsole() // Same as doListByPlayer, with adjustments for console
 	{
-		return false;
+		// Exception handling
+		try{
+			
+			// Iterate through stored emotes
+			for(Emote e : myPlugin.getMyEmotes())
+			{
+				// Send the console a message with info about this emote
+				myPlugin.getLogger().info(e.getCommand() + " - \"" + e.getMessage() + "\"");
+			}
+			
+			return true;
+			
+		} catch (Exception e)
+		{
+			return false;
+		}
 	}
 	
 	

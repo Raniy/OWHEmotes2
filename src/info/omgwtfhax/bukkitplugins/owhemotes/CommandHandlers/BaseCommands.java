@@ -17,7 +17,6 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		myPlugin = instance;
 	}
 	
-	@SuppressWarnings("static-access")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
@@ -26,63 +25,59 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		{
 			if(cmd.getName().equalsIgnoreCase("listemotes"))
 			{
-				doListByPlayer(label);
-				return true;
+				if(doListByPlayer(((Player) sender).getName()))	return true;
+				return false;
 			}
 			
 			if(!(myPlugin.playerHasNode(((Player) sender).getName(),OWHEmotes2_0.getPermissionNodes().get("moderator").getMyNode()))) return false; // No Permission!
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{
-				doAddByPlayer(label, label, label, null);
-				return true;
+				if(doAddByPlayer(((Player) sender).getName(), getEmoteFromStrings(label, label, null))) return true;
+				return false;
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("deleteemote"))
 			{
-				doDeleteByPlayer(label, label, label, null);
-				return true;
+				if(doDeleteByPlayer(((Player) sender).getName(), getEmoteFromStrings(label, label, null))) return true;
+				return false;
 			}
 			
 			if(!(myPlugin.playerHasNode(((Player) sender).getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
 			{
 				// Reload plugin
+				if(doPluginReload()) return true;
+				return false;
 			}
 			
 		} else {
 			// It is the console... They can do whatever.
 			if(cmd.getName().equalsIgnoreCase("listemotes"))
 			{
-				doListByConsole();
-				return true;
+				if(doListByConsole()) return true;
+				return false;
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{
-				doAddByConsole(label, label, null);
-				return true;
+				if(doAddByConsole(getEmoteFromStrings(label, label, null))) return true;
+				return false;
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("deleteemote"))
 			{
-				doDeleteByConsole(label, label, null);
-				return true;
+				if(doDeleteByConsole(getEmoteFromStrings(label, label, null))) return true;
+				return false;
 			}
 		}
-		
-		// Also check for Emotes, which can only be done by a Player!
-		
-		return false; // This means we did not handle the command. Only return false if we DONT do anything.
+		return false;
 	}
 
-	private boolean doAddByPlayer(String player,String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
+	private boolean doAddByPlayer(String player,Emote emote)
 	{
 	
 		try
 		{
-			// initialize new emote that the player has specified
-			Emote emote = new Emote(emoteCommand, emoteMessage, emoteStyle);
-			
 			// Add new emote to our list of emotes
 			myPlugin.addEmoteToList(emote);
 			
@@ -94,12 +89,12 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 				
 				// Tell player their new emote has been made, as well as alert console
 				Bukkit.getPlayer(player).sendMessage("[HardMode] new emote added!");
-				myPlugin.getLogger().info("[HardMode] new emote \"" + emoteCommand + "\" added by " + player);
+				myPlugin.getLogger().info("[HardMode] new emote \"" + emote.getCommand() + "\" added by " + player);
 			} else 
 			{
 				// Tell player their new emote has been made, as well as alert console
 				Bukkit.getPlayer(player).sendMessage("[SoftMode] new emote added!");
-				myPlugin.getLogger().info("[SoftMode] new emote \"" + emoteCommand + "\" added by " + player);
+				myPlugin.getLogger().info("[SoftMode] new emote \"" + emote.getCommand() + "\" added by " + player);
 			}
 			return true;
 			
@@ -109,15 +104,12 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		}
 	}
 	 
-	private boolean doAddByConsole(String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
+	private boolean doAddByConsole(Emote emote)
 	{
 		//Exact same functionality as doAddByPlayer, with adjustments to respect that it is a console sender.
 		
 		try
 		{
-			// initialize new emote that the console has specified
-			Emote emote = new Emote(emoteCommand, emoteMessage, emoteStyle);
-			
 			// Add new emote to our list of emotes
 			myPlugin.addEmoteToList(emote);
 			
@@ -142,12 +134,10 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		}
 	}
 
-	private boolean doDeleteByPlayer(String player, String emoteCommand, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
+	private boolean doDeleteByPlayer(String player, Emote emote)
 	{
 		try
-		{
-			Emote emote = null;
-			
+		{	
 			//iterate through emotes, looking for a match
 			for(Emote e : myPlugin.getMyEmotes())
 			{
@@ -175,7 +165,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		}
 	}
 	 
-	private boolean doDeleteByConsole(String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
+	private boolean doDeleteByConsole(Emote emote)
 	{
 		return false;
 	}
@@ -220,5 +210,27 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		}
 	}
 	
+	private boolean doPluginReload()
+	{
+		// TODO
+		
+		// Stop all listeners
+		
+		// Empty all lists
+		
+		// Reload all variables from config.
+		
+		// Rebuild all lists
+		
+		// Restart the Listeners/CommandExecutors
+		
+		// Return True for Woo, False for Boo
+		return false;
+		
+	}
 	
+	private Emote getEmoteFromStrings(String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
+	{
+		return (new Emote(emoteCommand,emoteMessage,emoteStyle));
+	}
 }	

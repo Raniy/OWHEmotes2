@@ -139,7 +139,7 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
         return (economy != null);
     }
     
-    public static boolean playerHasNode(String player, String node)
+    public boolean playerHasNode(String player, String node)
     {
     	// Check Vault
     	if(BukkitPlugin.permission != null) // Always check for null!

@@ -38,7 +38,7 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 				if(e.getCommand().equalsIgnoreCase(command.getName())){
 					
 					//Check if sender has permission for emote
-					if(OWHEmotes2_0.playerHasNode(sender.getName(), OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase())) {
+					if(this.myPlugin.playerHasNode(sender.getName(), OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase())) {
 						
 						String outputMessage = e.getOutputMessage(sender.getName(), args[0]);
 					

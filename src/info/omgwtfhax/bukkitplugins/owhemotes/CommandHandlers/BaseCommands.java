@@ -100,8 +100,10 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 		} catch (Exception e)
 		{
-			return false;
+			e.printStackTrace();
 		}
+		
+		return false;
 	}
 	 
 	private boolean doAddByConsole(Emote emote)
@@ -130,8 +132,10 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 		} catch (Exception e)
 		{
-			return false;
+			e.printStackTrace();
 		}
+		
+		return false;
 	}
 
 	private boolean doDeleteByPlayer(String player, Emote emote)
@@ -155,18 +159,62 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 				return false;
 			}
 			
-			//TODO delete emote in whichever modes apply.
+			if(myPlugin.isHardMode())
+			{
+				myPlugin.removeCommand(emote);
+				Bukkit.getPlayer(player).sendMessage("[HardMode] Emote successfully deleted!");
+			} else
+			{
+				Bukkit.getPlayer(player).sendMessage("[SoftMode] Emote successfully deleted!");
+			}
 			
 			return true;
 			
 		} catch(Exception e)
 		{
-			return false;	
+			e.printStackTrace();
 		}
+		
+		return false;
 	}
 	 
-	private boolean doDeleteByConsole(Emote emote)
+	private boolean doDeleteByConsole(Emote emote) // Same as doDeleteByPlayer, with adjustments for console sender.
 	{
+		try
+		{	
+			//iterate through emotes, looking for a match
+			for(Emote e : myPlugin.getMyEmotes())
+			{
+				//Check if emote is what our player is looking for
+				if (e.getCommand().equals(emote.getCommand()) && e.getStyle().equals(emote.getStyle()))
+				{
+					// Found a matching emote! store it in emote variable
+					emote = e;
+				}
+			}
+			
+			if(emote == null) // No matching emote.
+			{
+				myPlugin.getLogger().info("Given emote does not exist");
+				return false;
+			}
+			
+			if(myPlugin.isHardMode())
+			{
+				myPlugin.removeCommand(emote);
+				myPlugin.getLogger().info("[HardMode] Emote successfully deleted!");
+			} else
+			{
+				myPlugin.getLogger().info("[SoftMode] Emote successfully deleted!");
+			}
+			
+			return true;
+			
+		} catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 	
@@ -186,8 +234,9 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 		} catch (Exception e)
 		{
-			return false;
+			e.printStackTrace();
 		}
+		return false;
 	}
 	 
 	private boolean doListByConsole() // Same as doListByPlayer, with adjustments for console
@@ -206,8 +255,9 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 		} catch (Exception e)
 		{
-			return false;
+			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	private boolean doPluginReload()

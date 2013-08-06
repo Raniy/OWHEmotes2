@@ -42,7 +42,7 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 						
 						String outputMessage = e.getOutputMessage(sender.getName(), args[0]);
 					
-						if(outputMessage != null)
+						if(outputMessage != null) // Check that the returned emote isn't null, which would indicate they tried a type of emote they didn't have perms for.
 						{
 							myPlugin.sendToAll(e.getOutputMessage(sender.getName(), args[0])); // Pass the first argument always, even if its empty.
 						}

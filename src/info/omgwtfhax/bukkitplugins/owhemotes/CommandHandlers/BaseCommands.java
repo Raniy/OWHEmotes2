@@ -87,15 +87,11 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 				// Create a new command pertaining to the emote
 				myPlugin.createEmoteCommand(emote); 
 				
-				// Tell player their new emote has been made, as well as alert console
-				Bukkit.getPlayer(player).sendMessage("[HardMode] new emote added!");
-				myPlugin.getLogger().info("[HardMode] new emote \"" + emote.getCommand() + "\" added by " + player);
-			} else 
-			{
-				// Tell player their new emote has been made, as well as alert console
-				Bukkit.getPlayer(player).sendMessage("[SoftMode] new emote added!");
-				myPlugin.getLogger().info("[SoftMode] new emote \"" + emote.getCommand() + "\" added by " + player);
-			}
+			}		
+
+			// Tell player their new emote has been made, as well as alert console
+			Bukkit.getPlayer(player).sendMessage("New emote added!");
+			myPlugin.getLogger().info("New emote \"" + emote.getCommand() + "\" added by " + player);
 			return true;
 			
 		} catch (Exception e)
@@ -120,14 +116,9 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			{
 				// Create a new command pertaining to the emote
 				myPlugin.createEmoteCommand(emote); 
-				
-				// Tell console the emote has been successfully created in HardMode
-				myPlugin.getLogger().info("[HardMode] new emote added!");
-			} else 
-			{
-				// Tell console the emote has been successfully created in SoftMode
-				myPlugin.getLogger().info("[SoftMode] new emote added!");
 			}
+
+			myPlugin.getLogger().info("New emote added!");
 			return true;
 			
 		} catch (Exception e)
@@ -162,12 +153,9 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			if(myPlugin.isHardMode())
 			{
 				myPlugin.removeCommand(emote);
-				Bukkit.getPlayer(player).sendMessage("[HardMode] Emote successfully deleted!");
-			} else
-			{
-				Bukkit.getPlayer(player).sendMessage("[SoftMode] Emote successfully deleted!");
 			}
 			
+			Bukkit.getPlayer(player).sendMessage("Emote successfully deleted!");
 			return true;
 			
 		} catch(Exception e)
@@ -202,11 +190,9 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			if(myPlugin.isHardMode())
 			{
 				myPlugin.removeCommand(emote);
-				myPlugin.getLogger().info("[HardMode] Emote successfully deleted!");
-			} else
-			{
-				myPlugin.getLogger().info("[SoftMode] Emote successfully deleted!");
 			}
+			
+			myPlugin.getLogger().info("Emote successfully deleted!");
 			
 			return true;
 			

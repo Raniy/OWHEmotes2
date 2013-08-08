@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Kisuul/Documents/GitHub/Bukkit/target/bukkit-1.6.2-R0.1-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Kisuul/Documents/GitHub/CraftBukkit/target/craftbukkit-1.6.2-R0.1-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Kisuul/Documents/GitHub/Vault/target/Vault-1.2.27.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/Insom/Desktop/1.6.2/craftbukkit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Insom/Desktop/1.6.2/Vault.jar"/>

@@ -33,13 +33,15 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{
-				if(doAddByPlayer(((Player) sender).getName(), getEmoteFromStrings(label, label, null))) return true;
+				if(args.length > 1) // Check that sender has given us atleast 2 arguments -- An emote name and an emote message
+					if(doAddByPlayer(((Player) sender).getName(), getEmoteFromStrings(args[0], label, null))) return true;
 				return false;
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("deleteemote"))
 			{
-				if(doDeleteByPlayer(((Player) sender).getName(), getEmoteFromStrings(label, label, null))) return true;
+				if(args.length > 0) // Check that the sender has given an emote name
+					if(doDeleteByPlayer(((Player) sender).getName(), getEmoteFromStrings(args[0], label, null))) return true;
 				return false;
 			}
 			
@@ -60,13 +62,15 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{
-				if(doAddByConsole(getEmoteFromStrings(label, label, null))) return true;
+				if(args.length > 1) // Check that sender has given us atleast 2 arguments -- An emote name and an emote message
+					if(doAddByConsole(getEmoteFromStrings(args[0], label, null))) return true;
 				return false;
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("deleteemote"))
 			{
-				if(doDeleteByConsole(getEmoteFromStrings(label, label, null))) return true;
+				if(args.length > 0) // Check that the sender has given an emote name
+					if(doDeleteByConsole(getEmoteFromStrings(args[0], label, null))) return true;
 				return false;
 			}
 		}
@@ -130,7 +134,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	}
 
 	private boolean doDeleteByPlayer(String player, Emote emote)
-	{
+	{	
 		try
 		{	
 			//iterate through emotes, looking for a match
@@ -144,7 +148,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 				}
 			}
 			
-			if(emote == null) // No matching emote.
+			if(emote == null) // No matching emote. ////////////LOL, oops. Flawed logic ftw.. emote will NEVER be null, so I need to fix this & doDeleteByConsole soon./////////////////////////
 			{
 				Bukkit.getPlayer(player).sendMessage("Given emote does not exist");
 				return false;

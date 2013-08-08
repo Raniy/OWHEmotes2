@@ -18,8 +18,8 @@ commands:
         aliases: [de,emote delete]
     listemotes:
         description: "Removes an Emote."
-        usage: "/listemotes [character]""  
+        usage: "/listemotes [character]" 
         aliases: [le,emote list]
-    reloademotes
+    reloademotes:
         description: "Reload the Emotes plugin."
         usage: "/reloademotes | You see this message. possibly other things might happen..."

@@ -2,8 +2,6 @@ package info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers;
 
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
 import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
-
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,30 +23,30 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		{
 			if(cmd.getName().equalsIgnoreCase("listemotes"))
 			{
-				return (doListByPlayer(((Player) sender).getName()));
+				return(doListByPlayer((sender.getName())));
 			}
 			
-			if(!(myPlugin.playerHasNode(((Player) sender).getName(),OWHEmotes2_0.getPermissionNodes().get("moderator").getMyNode()))) return false; // No Permission!
+			if(!(myPlugin.playerHasNode(sender.getName(),OWHEmotes2_0.getPermissionNodes().get("moderator").getMyNode()))) return false; // No Permission!
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{
 				if(args.length > 1) // Check that sender has given us atleast 2 arguments -- An emote name and an emote message
-					return (doAddByPlayer(((Player) sender).getName(), getEmoteFromStrings(args[0], label, null)));
+					return (doAddByPlayer(sender.getName(), getEmoteFromStrings(args[0], label, null)));
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("deleteemote"))
 			{
 				if(args.length > 0) // Check that the sender has given an emote name
-					return (doDeleteByPlayer(((Player) sender).getName(), getEmoteFromStrings(args[0], label, null)));
+					return (doDeleteByPlayer(sender.getName(), getEmoteFromStrings(args[0], label, null)));
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("emoteall"))
 			{
 				if(args.length > 0) // Check that they have specified an emote.
-					return (doEmoteAllByPlayer(((Player) sender).getName(), getEmoteFromStrings(args[0],label,null)));
+					return (doEmoteAllByPlayer(sender.getName(), getEmoteFromStrings(args[0],label,null), false));
 			}
 			
-			if(!(myPlugin.playerHasNode(((Player) sender).getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
+			if(!(myPlugin.playerHasNode(sender.getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
 			{
 				// Reload plugin
 				return (doPluginReload());
@@ -225,15 +223,19 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		return false;
 	}
 	
-	private boolean doEmoteAllByPlayer(String player, Emote emote)
+	private boolean doEmoteAllByPlayer(String player, Emote emote, boolean transporter)
 	{
-		
+		for(Player p : myPlugin.getOnlinePlayers()){
+			//TODO make each player activate the given emote.
+		}
 		return false;
 	}
 	
-	private boolean doEmoteAllByConsole(Emote emote)
+	private boolean doEmoteAllByConsole(Emote emote, boolean transporter)
 	{
-		//TODO steal logic from doEmoteAllByPlayer
+		for(Player p : myPlugin.getOnlinePlayers()){
+			//TODO steal doEmoteAllByPlayer logic.
+		}
 		return false;
 	}
 	

@@ -11,6 +11,7 @@ import org.bukkit.command.SimpleCommandMap;
 
 
 import org.bukkit.craftbukkit.v1_6_R2.CraftServer; // HARD MODE REFERENCE, SUBJECT TO RANDOM CHANGES!!!
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 
@@ -39,6 +40,18 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 		 */
 		
 		this.saveConfig();
+	}
+	
+	public Player[] getOnlinePlayers(){
+		try 
+		{
+			return this.getServer().getOnlinePlayers();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public boolean sendToPlayer(String player, String msg)

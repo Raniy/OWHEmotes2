@@ -25,8 +25,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		{
 			if(cmd.getName().equalsIgnoreCase("listemotes"))
 			{
-				if(doListByPlayer(((Player) sender).getName()))	return true;
-				return false;
+				return (doListByPlayer(((Player) sender).getName()));
 			}
 			
 			if(!(myPlugin.playerHasNode(((Player) sender).getName(),OWHEmotes2_0.getPermissionNodes().get("moderator").getMyNode()))) return false; // No Permission!
@@ -34,44 +33,44 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{
 				if(args.length > 1) // Check that sender has given us atleast 2 arguments -- An emote name and an emote message
-					if(doAddByPlayer(((Player) sender).getName(), getEmoteFromStrings(args[0], label, null))) return true;
-				return false;
+					return (doAddByPlayer(((Player) sender).getName(), getEmoteFromStrings(args[0], label, null)));
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("deleteemote"))
 			{
 				if(args.length > 0) // Check that the sender has given an emote name
-					if(doDeleteByPlayer(((Player) sender).getName(), getEmoteFromStrings(args[0], label, null))) return true;
-				return false;
+					return (doDeleteByPlayer(((Player) sender).getName(), getEmoteFromStrings(args[0], label, null)));
+			}
+			
+			if(cmd.getName().equalsIgnoreCase("emoteall"))
+			{
+				if(args.length > 0) // Check that they have specified an emote.
+					return (doEmoteAllByPlayer(((Player) sender).getName(), getEmoteFromStrings(args[0],label,null)));
 			}
 			
 			if(!(myPlugin.playerHasNode(((Player) sender).getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
 			{
 				// Reload plugin
-				if(doPluginReload()) return true;
-				return false;
+				return (doPluginReload());
 			}
 			
 		} else {
 			// It is the console... They can do whatever.
 			if(cmd.getName().equalsIgnoreCase("listemotes"))
 			{
-				if(doListByConsole()) return true;
-				return false;
+				return (doListByConsole());
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{
 				if(args.length > 1) // Check that sender has given us atleast 2 arguments -- An emote name and an emote message
-					if(doAddByConsole(getEmoteFromStrings(args[0], label, null))) return true;
-				return false;
+					return (doAddByConsole(getEmoteFromStrings(args[0], label, null)));
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("deleteemote"))
 			{
 				if(args.length > 0) // Check that the sender has given an emote name
-					if(doDeleteByConsole(getEmoteFromStrings(args[0], label, null))) return true;
-				return false;
+					return (doDeleteByConsole(getEmoteFromStrings(args[0], label, null)));
 			}
 		}
 		return false;
@@ -247,6 +246,18 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		{
 			e.printStackTrace();
 		}
+		return false;
+	}
+	
+	private boolean doEmoteAllByPlayer(String player, Emote emote)
+	{
+		//TODO iterate through players, make them all take a steamy dump on the lawn (or other things... I guess...)
+		return false;
+	}
+	
+	private boolean doEmoteAllByConsole(Emote emote)
+	{
+		//TODO steal logic from doEmoteAllByPlayer
 		return false;
 	}
 	

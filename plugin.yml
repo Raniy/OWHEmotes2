@@ -22,4 +22,8 @@ commands:
         aliases: [le,emote list]
     reloademotes:
         description: "Reload the Emotes plugin."
-        usage: "/reloademotes | You see this message. possibly other things might happen..."
+        usage: "/reloademotes | You see this message. possibly 
+other things might happen..."
+    emoteall:
+        description: "Cause all players to use an Emote."
+        usage: "/emoteall [Emote]"

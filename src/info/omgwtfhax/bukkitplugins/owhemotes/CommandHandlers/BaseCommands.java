@@ -136,26 +136,14 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	{	
 		try
 		{	
-			//iterate through emotes, looking for a match
-			for(Emote e : myPlugin.getMyEmotes())
-			{
-				//Check if emote is what our player is looking for
-				if (e.getCommand().equals(emote.getCommand()) && e.getStyle().equals(emote.getStyle()))
-				{
-					// Found a matching emote! store it in emote variable
-					emote = e;
-				}
-			}
-			
-			if(emote == null) // No matching emote. ////////////LOL, oops. Flawed logic ftw.. emote will NEVER be null, so I need to fix this & doDeleteByConsole soon./////////////////////////
-			{
-				Bukkit.getPlayer(player).sendMessage("Given emote does not exist");
-				return false;
-			}
 			
 			if(myPlugin.isHardMode())
 			{
-				myPlugin.removeCommand(emote);
+				if(!myPlugin.removeCommand(emote)) // Check if false
+				{
+					Bukkit.getPlayer(player).sendMessage("Emote does not exist.");
+					return false;
+				}
 			}
 			
 			Bukkit.getPlayer(player).sendMessage("Emote successfully deleted!");
@@ -172,27 +160,15 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	private boolean doDeleteByConsole(Emote emote) // Same as doDeleteByPlayer, with adjustments for console sender.
 	{
 		try
-		{	
-			//iterate through emotes, looking for a match
-			for(Emote e : myPlugin.getMyEmotes())
-			{
-				//Check if emote is what our player is looking for
-				if (e.getCommand().equals(emote.getCommand()) && e.getStyle().equals(emote.getStyle()))
-				{
-					// Found a matching emote! store it in emote variable
-					emote = e;
-				}
-			}
-			
-			if(emote == null) // No matching emote.
-			{
-				myPlugin.getLogger().info("Given emote does not exist");
-				return false;
-			}
+		{
 			
 			if(myPlugin.isHardMode())
 			{
-				myPlugin.removeCommand(emote);
+				if(!myPlugin.removeCommand(emote))
+				{
+					myPlugin.getLogger().info("Emote does not exist.");
+					return false;
+				}
 			}
 			
 			myPlugin.getLogger().info("Emote successfully deleted!");

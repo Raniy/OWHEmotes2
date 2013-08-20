@@ -41,7 +41,7 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 		this.saveConfig();
 	}
 	
-	protected boolean sendToPlayer(String player, String msg)
+	public boolean sendToPlayer(String player, String msg)
 	{	/*
 	 	 * Wrap the broadcast to player function
 	 	 */	
@@ -72,7 +72,7 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 		return true;
 	}
 	
-	protected boolean consoleInfo(String msg)
+	public boolean consoleInfo(String msg)
 	{	/* 
 	 	 *	Wrapper for Bukkits built in Console Messaging
 	 	 */

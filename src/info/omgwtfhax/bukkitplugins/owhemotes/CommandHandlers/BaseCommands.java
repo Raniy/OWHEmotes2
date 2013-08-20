@@ -93,8 +93,8 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			}		
 
 			// Tell player their new emote has been made, as well as alert console
-			Bukkit.getPlayer(player).sendMessage("New emote added!");
-			myPlugin.getLogger().info("New emote \"" + emote.getCommand() + "\" added by " + player);
+			myPlugin.sendToPlayer(player, "New emote added!");
+			myPlugin.consoleInfo("New emote \"" + emote.getCommand() + "\" added by " + player);
 			return true;
 			
 		} catch (Exception e)
@@ -121,7 +121,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 				myPlugin.createEmoteCommand(emote); 
 			}
 
-			myPlugin.getLogger().info("New emote added!");
+			myPlugin.consoleInfo("New emote added!");
 			return true;
 			
 		} catch (Exception e)
@@ -141,12 +141,12 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			{
 				if(!myPlugin.removeCommand(emote)) // Check if false
 				{
-					Bukkit.getPlayer(player).sendMessage("Emote does not exist.");
+					myPlugin.sendToPlayer(player, "Emote does not exist.");
 					return false;
 				}
 			}
 			
-			Bukkit.getPlayer(player).sendMessage("Emote successfully deleted!");
+			myPlugin.sendToPlayer(player, "Emote successfully deleted!");
 			return true;
 			
 		} catch(Exception e)
@@ -166,12 +166,12 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			{
 				if(!myPlugin.removeCommand(emote))
 				{
-					myPlugin.getLogger().info("Emote does not exist.");
+					myPlugin.consoleInfo("Emote does not exist.");
 					return false;
 				}
 			}
 			
-			myPlugin.getLogger().info("Emote successfully deleted!");
+			myPlugin.consoleInfo("Emote successfully deleted!");
 			
 			return true;
 			
@@ -192,7 +192,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			for(Emote e : myPlugin.getMyEmotes())
 			{
 				// Send the player a message with info about this emote
-				Bukkit.getPlayer(player).sendMessage(e.getCommand() + " - \"" + e.getMessage() + "\"");
+				myPlugin.sendToPlayer(player, e.getCommand() + " - \"" + e.getMessage() + "\"");
 			}
 			
 			return true;
@@ -213,7 +213,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			for(Emote e : myPlugin.getMyEmotes())
 			{
 				// Send the console a message with info about this emote
-				myPlugin.getLogger().info(e.getCommand() + " - \"" + e.getMessage() + "\"");
+				myPlugin.consoleInfo(e.getCommand() + " - \"" + e.getMessage() + "\"");
 			}
 			
 			return true;
@@ -227,7 +227,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	
 	private boolean doEmoteAllByPlayer(String player, Emote emote)
 	{
-		//TODO iterate through players, make them all take a steamy dump on the lawn (or other things... I guess...)
+		
 		return false;
 	}
 	

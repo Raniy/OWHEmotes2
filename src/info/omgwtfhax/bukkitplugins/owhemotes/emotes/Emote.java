@@ -11,6 +11,21 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 	public enum Style 
 	{
 		THIRD,FIRST,P2P; 
+		
+		public Style getStyleFromString(String style){
+			if (style.equalsIgnoreCase("third") || style.equalsIgnoreCase("3rd"))
+			{
+				return THIRD;
+			} else if (style.equalsIgnoreCase("first") || style.equalsIgnoreCase("1st"))
+			{
+				return FIRST;
+			} else if (style.equalsIgnoreCase("p2p"))
+			{
+				return P2P;
+			}
+			
+			return THIRD; // Default to third
+		}
 	}
 	// Static Strings
 	public static String serializedCommand = "EmoteCommand",serializedMessage = "EmoteMessage", serializedStyle = "EmoteStyle";

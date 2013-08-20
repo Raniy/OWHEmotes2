@@ -2,16 +2,14 @@ package info.omgwtfhax.bukkitplugins.core;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.SimpleCommandMap;
-
-
 import org.bukkit.craftbukkit.v1_6_R2.CraftServer; // HARD MODE REFERENCE, SUBJECT TO RANDOM CHANGES!!!
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 
@@ -42,7 +40,7 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 		this.saveConfig();
 	}
 	
-	public Player[] getOnlinePlayers(){
+	public org.bukkit.entity.Player[] getOnlinePlayers(){
 		try 
 		{
 			return this.getServer().getOnlinePlayers();
@@ -83,6 +81,11 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 		}
 		
 		return true;
+	}
+	
+	public boolean dispatchCommand(String player, String command) // The command string should include any desired args.
+	{
+		return this.getServer().dispatchCommand(Bukkit.getPlayer(player), command);
 	}
 	
 	public boolean consoleInfo(String msg)

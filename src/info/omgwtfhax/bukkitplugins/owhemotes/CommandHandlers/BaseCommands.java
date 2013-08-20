@@ -43,7 +43,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			if(cmd.getName().equalsIgnoreCase("emoteall"))
 			{
 				if(args.length > 0) // Check that they have specified an emote.
-					return (doEmoteAllByPlayer(sender.getName(), getEmoteFromStrings(args[0],label,null), false));
+					return (doEmoteAll(getEmoteFromStrings(args[0],label,null), false));
 			}
 			
 			if(!(myPlugin.playerHasNode(sender.getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
@@ -69,6 +69,12 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			{
 				if(args.length > 0) // Check that the sender has given an emote name
 					return (doDeleteByConsole(getEmoteFromStrings(args[0], label, null)));
+			}
+			
+			if(cmd.getName().equalsIgnoreCase("emoteall"))
+			{
+				if(args.length > 0) // Check that they have specified an emote.
+					return (doEmoteAll(getEmoteFromStrings(args[0],label,null), false));
 			}
 		}
 		return false;
@@ -223,18 +229,15 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		return false;
 	}
 	
-	private boolean doEmoteAllByPlayer(String player, Emote emote, boolean transporter)
+	private boolean doEmoteAll(Emote emote, boolean useTransporter)
 	{
 		for(Player p : myPlugin.getOnlinePlayers()){
-			//TODO make each player activate the given emote.
+			myPlugin.dispatchCommand(p.getDisplayName(), emote.getCommand());
 		}
-		return false;
-	}
-	
-	private boolean doEmoteAllByConsole(Emote emote, boolean transporter)
-	{
-		for(Player p : myPlugin.getOnlinePlayers()){
-			//TODO steal doEmoteAllByPlayer logic.
+		
+		if(useTransporter)
+		{
+			//TODO send emoteall to all available servers via Transporter
 		}
 		return false;
 	}
@@ -258,7 +261,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		
 	}
 	
-	private Emote getEmoteFromStrings(String emoteCommand, String emoteMessage, info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style emoteStyle)
+	private Emote getEmoteFromStrings(String emoteCommand, String emoteMessage, Emote.Style emoteStyle)
 	{
 		return (new Emote(emoteCommand,emoteMessage,emoteStyle));
 	}

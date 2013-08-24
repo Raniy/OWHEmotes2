@@ -19,8 +19,8 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	
 	// Default Modes
 	private boolean hardMode = false; // if True then the CraftBukkit kludge will be used. NOT SUGGESTED bY THE BUKKIT DEV TEAM!!! EH, Screw em.
-	private boolean noConfig = false; // if True then do not ever store Emotes. They will disappear at restart. DO NOT COMBINE WITH THE FOLLOWING!
-	private boolean defaultEmotes = true; // if False then the default emotes will never be written into the memory. DO NOT COMBINE WITH THE ABOVE!
+	private boolean noConfig = true; // if True then do not ever store Emotes. They will disappear at restart. DO NOT COMBINE WITH THE FOLLOWING!
+	private boolean defaultEmotes = false; // if False then the default emotes will never be written into the memory. DO NOT COMBINE WITH THE ABOVE!
 	
 	// List of Emotes
 	private List<Emote> myEmotes = null;
@@ -153,11 +153,12 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			{
 				// Duplicate Emote!
 				return;
-			} else {
-				// Add this emote to the list.
-				this.getMyEmotes().add(emote);
 			}
 		}
+		
+		// Add this emote to the list.
+		this.getMyEmotes().add(emote);
+		System.out.println(this.getMyEmotes());
 		
 	}
 	// Create a new command with name of emote. Returns true if successfully made

@@ -18,7 +18,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
-		// We have three 'Base' commands. AddEmote, DeleteEmote, ListEmotes. These can all be called by either a player or the console
+		// We have four 'Base' commands. AddEmote, DeleteEmote, ListEmotes, EmoteAll. These can all be called by either a player or the console
 		if (sender instanceof Player)
 		{
 			if(cmd.getName().equalsIgnoreCase("listemotes"))
@@ -30,20 +30,20 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{
-				if(args.length > 1) // Check that sender has given us atleast 2 arguments -- An emote name and an emote message
-					return (doAddByPlayer(sender.getName(), getEmoteFromStrings(args[0], label, null)));
+				if(args.length > 2) // Check that sender has given us atleast 3 arguments -- An emote name, emote style, and an emote message
+					return (doAddByPlayer(sender.getName(), getEmoteFromStrings(args[0], arrayToString(2,args), Emote.Style.getStyleFromString(args[1]))));
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("deleteemote"))
 			{
-				if(args.length > 0) // Check that the sender has given an emote name
-					return (doDeleteByPlayer(sender.getName(), getEmoteFromStrings(args[0], label, null)));
+				if(args.length > 1) // Check that the sender has given an emote name and style
+					return (doDeleteByPlayer(sender.getName(), getEmoteFromStrings(args[0], "", Emote.Style.getStyleFromString(args[1]))));
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("emoteall"))
 			{
 				if(args.length > 0) // Check that they have specified an emote.
-					return (doEmoteAll(getEmoteFromStrings(args[0],label,null), false));
+					return (doEmoteAll(getEmoteFromStrings(args[0],"",null), false));
 			}
 			
 			if(!(myPlugin.playerHasNode(sender.getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
@@ -61,14 +61,14 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{
-				if(args.length > 1) // Check that sender has given us atleast 2 arguments -- An emote name and an emote message
-					return (doAddByConsole(getEmoteFromStrings(args[0], label, null)));
+				if(args.length > 2) // Check that sender has given us atleast 3 arguments -- An emote name, style, and an emote message
+					return (doAddByConsole(getEmoteFromStrings(args[0], arrayToString(2,args), Emote.Style.getStyleFromString(args[1]))));
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("deleteemote"))
 			{
-				if(args.length > 0) // Check that the sender has given an emote name
-					return (doDeleteByConsole(getEmoteFromStrings(args[0], label, null)));
+				if(args.length > 1) // Check that the sender has given an emote name and style
+					return (doDeleteByConsole(getEmoteFromStrings(args[0], "", null)));
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("emoteall"))
@@ -259,6 +259,16 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		// Return True for Woo, False for Boo
 		return false;
 		
+	}
+	
+	public String arrayToString(int startpoint, String[] args)
+	{
+		//Return a string made from an array seperated by spaces. Startpoint will exclude starting objects in the array.
+		String message = "";
+		for(int i = startpoint; i < args.length; i++){
+			message = message + " " + args[i];
+		}
+		return message;
 	}
 	
 	private Emote getEmoteFromStrings(String emoteCommand, String emoteMessage, Emote.Style emoteStyle)

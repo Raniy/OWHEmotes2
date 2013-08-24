@@ -12,14 +12,14 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 	{
 		THIRD,FIRST,P2P; 
 		
-		public Style getStyleFromString(String style){
-			if (style.equalsIgnoreCase("third") || style.equalsIgnoreCase("3rd"))
+		public static Style getStyleFromString(String style){
+			if (style.equalsIgnoreCase("0"))
 			{
 				return THIRD;
-			} else if (style.equalsIgnoreCase("first") || style.equalsIgnoreCase("1st"))
+			} else if (style.equalsIgnoreCase("1"))
 			{
 				return FIRST;
-			} else if (style.equalsIgnoreCase("p2p"))
+			} else if (style.equalsIgnoreCase("2"))
 			{
 				return P2P;
 			}
@@ -73,6 +73,11 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 			// Try to resolve the argument to the name of a target player.
 			String playerName = args.substring(0, args.indexOf(" "));
 			playerName = Bukkit.getServer().getPlayer(playerName).getName(); // Reset variable to be the PROPER name of the target.
+			
+			String p2pMessage = getMessage();
+			
+			p2pMessage.replace("-p1", player);
+			p2pMessage.replace("-p2", playerName);
 			
 			// TODO handle the string proccesing stuff for a P2p
 			

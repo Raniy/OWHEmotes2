@@ -1,4 +1,4 @@
-package info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers;
+package info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,10 +27,13 @@ public class SoftMode implements org.bukkit.event.Listener{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onCommand(PlayerCommandPreprocessEvent event)
 	{
+		
 		String cmd = event.getMessage();
+		cmd = cmd.substring(1, cmd.length()); // Remove the "/" from the beginning of the command
+		
 		for (Emote e:myPlugin.getMyEmotes())
 		{
-			if(e.getCommand().equalsIgnoreCase(cmd));
+			if(e.getCommand().equalsIgnoreCase(cmd))
 			{
 				//Found a potential MATCH!
 				if(this.myPlugin.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase()))
@@ -42,6 +45,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 					if(outputMessage != null)
 					{
 						this.myPlugin.sendToAll(outputMessage); // Pass in the arguments, even if they may be null.
+						event.setCancelled(true);
 					}
 					
 				}

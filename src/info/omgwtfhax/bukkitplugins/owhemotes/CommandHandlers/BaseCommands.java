@@ -1,4 +1,4 @@
-package info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers;
+package info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers;
 
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
 import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;

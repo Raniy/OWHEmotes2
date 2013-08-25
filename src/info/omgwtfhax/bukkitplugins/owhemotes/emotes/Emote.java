@@ -61,12 +61,14 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 	// Logic!
 	public String getOutputMessage(String player, String args)
 	{
+		
+		String p2pMessage = this.getMessage().replace("-p1", player);
 		// Determine if there are any arguments being passed.
-		if((args == "") || (args == null)) // No arguments implies no need for further processing.
+		if(args.indexOf(" ") == -1 || (args == null)) // No arguments implies no need for further processing.
 		{
 			if(this.getStyle() == Emote.Style.THIRD)//Third Person processing
 			{
-				return(Bukkit.getServer().getPlayer(player).getDisplayName() + " " + this.getMessage());
+				return(p2pMessage);
 			}
 		} else {
 			// Arguments, assume an attempt at a P2P emote.
@@ -74,9 +76,6 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 			String playerName = args.substring(0, args.indexOf(" "));
 			playerName = Bukkit.getServer().getPlayer(playerName).getName(); // Reset variable to be the PROPER name of the target.
 			
-			String p2pMessage = getMessage();
-			
-			p2pMessage.replace("-p1", player);
 			p2pMessage.replace("-p2", playerName);
 			
 			// TODO handle the string proccesing stuff for a P2p

@@ -1,9 +1,9 @@
 package info.omgwtfhax.bukkitplugins.owhemotes;
 
 import info.omgwtfhax.bukkitplugins.core.PermissionNode;
-import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.BaseCommands;
-import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.HardMode;
-import info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers.SoftMode;
+import info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers.BaseCommands;
+import info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers.HardMode;
+import info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers.SoftMode;
 import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
 import info.omgwtfhax.bukkitplugins.owhemotes.emotes.EmoteCommand;
 
@@ -75,6 +75,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		// Second Figure out which mode we are in
 		if(this.isHardMode())
 		{
+			System.out.println("Enabling hardmode handler");
 			// Start HARD Mode command Handler
 			for(Emote emote:this.getMyEmotes())
 			{
@@ -82,6 +83,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			}
 		} else {
 			// Start SOFT Mode command listener
+			System.out.println("Enabling softmode listener");
 			getServer().getPluginManager().registerEvents(this.getSoftModeListener(),this);
 		}
 		

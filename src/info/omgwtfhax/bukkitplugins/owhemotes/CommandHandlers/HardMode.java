@@ -1,4 +1,4 @@
-package info.omgwtfhax.bukkitplugins.owhemotes.CommandHandlers;
+package info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

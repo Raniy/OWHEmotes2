@@ -210,6 +210,8 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 					{
 					    // This is our Emote, lets get rid of it.
 						cmap.getCommand(e.getCommand()).unregister(cmap);
+						this.getMyEmotes().remove(e);
+						
 						return true;
 					}
 				}
@@ -238,6 +240,13 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	private List<String> getEmotesFromConfig()
 	{
 		// TODO Get the current list of Emotes from the Config.yml file	
+		
+		// Check if there are any emotes stored.
+		if(this.getMyConfig().contains("emote")){
+			System.out.println("Emotes found");
+		} else {
+			System.out.println("Emotes not found");
+		}
 		return null;
 	}
 	

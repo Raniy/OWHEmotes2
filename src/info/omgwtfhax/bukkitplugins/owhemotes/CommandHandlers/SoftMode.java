@@ -28,19 +28,21 @@ public class SoftMode implements org.bukkit.event.Listener{
 	public void onCommand(PlayerCommandPreprocessEvent event)
 	{
 		
-		String cmd = event.getMessage();
-		cmd = cmd.substring(1, cmd.length()); // Remove the "/" from the beginning of the command
+		String cmd = event.getMessage() + " "; //Event message contains EVERYTHING, including the command itself
+		
+		String args = cmd.substring(cmd.indexOf(" ")+1); // Arguments to be passed into getOutputMessage()
+		cmd = cmd.substring(1, cmd.indexOf(" ")); // Remove the "/" from the beginning of the command
 		
 		for (Emote e:myPlugin.getMyEmotes())
 		{
-			if(e.getCommand().equalsIgnoreCase(cmd))
+			if(e.getCommand().equalsIgnoreCase(cmd.substring(0,e.getCommand().length())))
 			{
 				//Found a potential MATCH!
 				if(this.myPlugin.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase()))
 				{
 					// They are allowed to do it!
 					// For now ignore any extra processing, assume all emotes are in third person.
-					String outputMessage = e.getOutputMessage(event.getPlayer().getName(), event.getMessage());
+					String outputMessage = e.getOutputMessage(event.getPlayer().getName(), args);
 					
 					if(outputMessage != null)
 					{

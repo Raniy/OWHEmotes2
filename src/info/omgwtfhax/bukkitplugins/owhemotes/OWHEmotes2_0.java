@@ -18,9 +18,9 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	private List<String> defaultCommands = new ArrayList<String>();		
 	
 	// Default Modes
-	private boolean hardMode = false; // if True then the CraftBukkit kludge will be used. NOT SUGGESTED bY THE BUKKIT DEV TEAM!!! EH, Screw em.
-	private boolean noConfig = true; // if True then do not ever store Emotes. They will disappear at restart. DO NOT COMBINE WITH THE FOLLOWING!
-	private boolean defaultEmotes = false; // if False then the default emotes will never be written into the memory. DO NOT COMBINE WITH THE ABOVE!
+	private boolean hardMode = true; // if True then the CraftBukkit kludge will be used. NOT SUGGESTED bY THE BUKKIT DEV TEAM!!! EH, Screw em.
+	private boolean noConfig = false; // if True then do not ever store Emotes. They will disappear at restart. DO NOT COMBINE WITH THE FOLLOWING!
+	private boolean defaultEmotes = true; // if False then the default emotes will never be written into the memory. DO NOT COMBINE WITH THE ABOVE!
 	
 	// List of Emotes
 	private List<Emote> myEmotes = null;
@@ -75,7 +75,6 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		// Second Figure out which mode we are in
 		if(this.isHardMode())
 		{
-			System.out.println("Enabling hardmode handler");
 			// Start HARD Mode command Handler
 			for(Emote emote:this.getMyEmotes())
 			{
@@ -83,7 +82,6 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			}
 		} else {
 			// Start SOFT Mode command listener
-			System.out.println("Enabling softmode listener");
 			getServer().getPluginManager().registerEvents(this.getSoftModeListener(),this);
 		}
 		
@@ -160,7 +158,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		
 		// Add this emote to the list.
 		this.getMyEmotes().add(emote);
-		System.out.println(this.getMyEmotes());
+		
+		if(!noConfig)
+		{
+			this.addEmoteToConfig(emote);
+		}
 		
 	}
 	// Create a new command with name of emote. Returns true if successfully made
@@ -226,6 +228,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		this.setHardMode(this.getMyConfig().getBoolean("OWH.Emotes.Use_CraftBukkit_Reflection_Or_BukkitAPI", this.isHardMode()));
 		this.setNoConfig(this.getMyConfig().getBoolean("OWH.Emotes.EmoteSaving",this.isNoConfig()));
 		this.setDefaultEmotes(this.getMyConfig().getBoolean("OWH.Emotes.DefaultEmotes",this.isDefaultEmotes()));
+	}
+	
+	public void addEmoteToConfig(Emote emote)
+	{
+		this.getMyConfig().createSection("emote." + emote.getCommand(), emote.getEmoteInfo());
 	}
 	
 	private List<String> getEmotesFromConfig()
@@ -325,6 +332,16 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 
 	public void setDefaultEmotes(boolean defaultEmotes) {
 		this.defaultEmotes = defaultEmotes;
+	}
+
+	public String arrayToString(int startpoint, String[] args)
+	{
+		//Return a string made from an array seperated by spaces. Startpoint will exclude starting objects in the array.
+		String message = "";
+		for(int i = startpoint; i < args.length; i++){
+			message = message + " " + args[i];
+		}
+		return message;
 	}
 
 }

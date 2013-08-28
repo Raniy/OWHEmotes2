@@ -40,11 +40,11 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 					//Check if sender has permission for emote
 					if(this.myPlugin.playerHasNode(sender.getName(), OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase())) {
 						
-						String outputMessage = e.getOutputMessage(sender.getName(), args[0]);
+						String outputMessage = e.getOutputMessage(sender.getName(), myPlugin.arrayToString(0, args));
 					
 						if(outputMessage != null) // Check that the returned emote isn't null, which would indicate they tried a type of emote they didn't have perms for.
 						{
-							myPlugin.sendToAll(e.getOutputMessage(sender.getName(), args[0])); // Pass the first argument always, even if its empty.
+							myPlugin.sendToAll(outputMessage); // Pass the first argument always, even if its empty.
 						}
 						
 						return true;

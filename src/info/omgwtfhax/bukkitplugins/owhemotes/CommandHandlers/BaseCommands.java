@@ -196,7 +196,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			for(Emote e : myPlugin.getMyEmotes())
 			{
 				// Send the player a message with info about this emote
-				myPlugin.sendToPlayer(player, e.getCommand() + " - \"" + e.getMessage() + "\"");
+				myPlugin.sendToPlayer(player, e.getCommand() + ": \"" + e.getMessage() + "\"");
 			}
 			
 			return true;
@@ -217,7 +217,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			for(Emote e : myPlugin.getMyEmotes())
 			{
 				// Send the console a message with info about this emote
-				myPlugin.consoleInfo(e.getCommand() + " - \"" + e.getMessage() + "\"");
+				myPlugin.consoleInfo(e.getCommand() + ": \"" + e.getMessage() + "\"");
 			}
 			
 			return true;

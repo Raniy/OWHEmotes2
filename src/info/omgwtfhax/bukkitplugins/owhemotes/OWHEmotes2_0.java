@@ -158,13 +158,8 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		
 		// Add this emote to the list.
 		this.getMyEmotes().add(emote);
-		
-		if(!noConfig)
-		{
-			this.addEmoteToConfig(emote);
-		}
-		
 	}
+	
 	// Create a new command with name of emote. Returns true if successfully made
 	public boolean createEmoteCommand(Emote emote)
 	{
@@ -232,20 +227,13 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		this.setDefaultEmotes(this.getMyConfig().getBoolean("OWH.Emotes.DefaultEmotes",this.isDefaultEmotes()));
 	}
 	
-	public void addEmoteToConfig(Emote emote)
-	{
-		this.getMyConfig().createSection("emote." + emote.getCommand(), emote.getEmoteInfo());
-	}
-	
 	private List<String> getEmotesFromConfig()
 	{
 		// TODO Get the current list of Emotes from the Config.yml file	
 		
 		// Check if there are any emotes stored.
-		if(this.getMyConfig().contains("emote")){
-			System.out.println("Emotes found");
-		} else {
-			System.out.println("Emotes not found");
+		if(this.getMyConfig().contains("owh.emotes.list")){
+			
 		}
 		return null;
 	}
@@ -348,7 +336,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		//Return a string made from an array seperated by spaces. Startpoint will exclude starting objects in the array.
 		String message = "";
 		for(int i = startpoint; i < args.length; i++){
-			message = message + " " + args[i];
+			message = message + args[i] + " ";
 		}
 		return message;
 	}

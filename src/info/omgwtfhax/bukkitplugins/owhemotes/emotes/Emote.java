@@ -73,6 +73,7 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 		
 		String message = this.getMessage().replace("-p1", player);
 		// Determine if there are any arguments being passed.
+		
 		if(args.indexOf(" ") == -1 || (args == null)) // No arguments implies no need for further processing.
 		{
 			if(this.getStyle() == Emote.Style.THIRD)//Third Person processing

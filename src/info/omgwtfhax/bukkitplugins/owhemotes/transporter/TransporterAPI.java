@@ -13,7 +13,8 @@ import com.frdfsnlght.transporter.api.TypeMap;
 public class TransporterAPI {
 	
 	//Key to use when sending / receiving any sent message.
-	public static String TRANSPORTER_KEY = "TRP-EMT";
+	public static String TRANSPORTER_MSG_KEY = "TRP-MSG";
+	public static String TRANSPORTER_EMOTE_KEY = "TRP-EMT";
 	
 	API api;
 	OWHEmotes2_0 myPlugin;
@@ -21,8 +22,6 @@ public class TransporterAPI {
 	public TransporterAPI(OWHEmotes2_0 instance)
 	{
 		myPlugin = instance;
-		
-		setupTransporterAPI();
 	}
 	
 	public boolean setupTransporterAPI()
@@ -39,16 +38,32 @@ public class TransporterAPI {
 	}
 	
 	//Send a message to all servers
-	public void sendToAllServers(String message)
+	public void sendMessageToAll(String message)
 	{
 		for(RemoteServer server : api.getRemoteServers())
 		{
 			TypeMap request = new TypeMap();
-			request.put(TRANSPORTER_KEY, message);
+			request.put(TRANSPORTER_MSG_KEY, message);
+			
+			String encoded = request.encode();
+			System.out.println(encoded);
+			System.out.println(TypeMap.decode(encoded));
 			
 			server.sendRemoteRequest(new Callback<TypeMap>(){}, request);
 		}
 		
+	}
+	
+	//Send an emote to all servers
+	public void sendEmoteToAll(info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote emote)
+	{
+		for(RemoteServer server : api.getRemoteServers())
+		{
+			TypeMap request = new TypeMap();
+			request.put(TRANSPORTER_EMOTE_KEY, emote);
+			
+			server.sendRemoteRequest(new Callback<TypeMap>(){}, request);
+		}
 	}
 	
 	

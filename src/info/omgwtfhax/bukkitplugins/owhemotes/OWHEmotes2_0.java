@@ -6,6 +6,7 @@ import info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers.HardMode;
 import info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers.SoftMode;
 import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
 import info.omgwtfhax.bukkitplugins.owhemotes.emotes.EmoteCommand;
+import info.omgwtfhax.bukkitplugins.owhemotes.transporter.TransporterAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,8 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	private BaseCommands baseCommands = null;
 	private SoftMode softModeListener = null;
 	private HardMode hardModeExecutor = null;
+	
+	private TransporterAPI transporterAPI = null;
 
 	// Plugin Loading 
 	@Override
@@ -46,6 +49,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		
 		// Start listening for commands.
 		this.startCommanHandler();
+		
+		// Start up transporter
+		transporterAPI = new TransporterAPI(this);
+		if(!transporterAPI.setupTransporterAPI())
+			this.consoleInfo("Failed to setup Transporter...");
 		
 		this.consoleInfo("Enabled.");
 

@@ -238,6 +238,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		if(useTransporter)
 		{
 			//TODO send emoteall to all available servers via Transporter
+			
 		}
 		return false;
 	}

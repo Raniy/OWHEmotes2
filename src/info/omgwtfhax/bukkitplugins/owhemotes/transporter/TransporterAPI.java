@@ -32,7 +32,11 @@ public class TransporterAPI {
 		if ((transporter != null) && transporter.isEnabled())
 		{
 			api = ((Transporter)transporter).getAPI();
-			return true;
+			
+			// Register listener now that we know transporter is enabled
+			myPlugin.getServer().getPluginManager().registerEvents(new RemoteRequestListener(myPlugin),myPlugin);
+			
+			return true; // True if transporter is enabled and ready to go, false if Transporter is unavailable
 		}
 		return false;
 	}
@@ -61,6 +65,8 @@ public class TransporterAPI {
 		{
 			TypeMap request = new TypeMap();
 			request.put(TRANSPORTER_EMOTE_KEY, emote);
+			
+			// Encode, maybe?
 			
 			server.sendRemoteRequest(new Callback<TypeMap>(){}, request);
 		}

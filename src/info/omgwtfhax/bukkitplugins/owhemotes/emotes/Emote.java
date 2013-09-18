@@ -1,11 +1,7 @@
 package info.omgwtfhax.bukkitplugins.owhemotes.emotes;
 
-import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.SerializableAs;
 
 public class Emote implements org.bukkit.configuration.serialization.ConfigurationSerializable{ // Class to contain data about any given emote.
@@ -70,7 +66,7 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 	}
 
 	// Logic!
-	public String getOutputMessage(String player, String args)
+	public String getOutputMessage(String player, String args) // Args will be passed in with whatever it is already meant to be, so no further logic needs to be applied to it
 	{
 		
 		String message = this.getMessage().replace("-p1", player);
@@ -84,17 +80,9 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 			}
 		} else {
 			// Arguments, assume an attempt at a P2P emote.
-			// Try to resolve the argument to the name of a target player.
 			
-			String playerName = args.substring(0, args.indexOf(" "));
-			
-			if(Bukkit.getServer().getPlayer(playerName) != null)
-			{
-				playerName = Bukkit.getServer().getPlayer(playerName).getName(); // Reset variable to be the PROPER name of the target.				
-				message = message.replace("-p2", playerName);
-				
-				return message;
-			} 
+			message = message.replace("-p2", args);
+			return message;
 			
 		}
 		

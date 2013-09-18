@@ -1,5 +1,7 @@
 package info.omgwtfhax.bukkitplugins.owhemotes.emotes;
 
+import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,7 +96,12 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 				return message;
 			} else 
 			{
-				// TODO handle the string proccesing stuff for a NON-PLAYER p2p
+				
+				if(this.myPlugin.playerHasNode(player, OWHEmotes2_0.getPermissionNodes().get("base") + ".p2p")){
+
+					
+					// TODO handle the string proccesing stuff for a NON-PLAYER p2p	
+				}
 			}
 			
 		}

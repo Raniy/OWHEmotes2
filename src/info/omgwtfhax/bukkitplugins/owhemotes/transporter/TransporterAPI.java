@@ -15,6 +15,7 @@ public class TransporterAPI {
 	//Key to use when sending / receiving any sent message.
 	public static String TRANSPORTER_MSG_KEY = "TRP-MSG";
 	public static String TRANSPORTER_EMOTE_KEY = "TRP-EMT";
+	public static String TRANSPORTER_EMOTE_MSG_KEY = "TRP-EMTMSG";
 	
 	API api;
 	OWHEmotes2_0 myPlugin;
@@ -49,10 +50,6 @@ public class TransporterAPI {
 			TypeMap request = new TypeMap();
 			request.put(TRANSPORTER_MSG_KEY, message);
 			
-			String encoded = request.encode();
-			System.out.println(encoded);
-			System.out.println(TypeMap.decode(encoded));
-			
 			server.sendRemoteRequest(new Callback<TypeMap>(){}, request);
 		}
 		
@@ -67,6 +64,17 @@ public class TransporterAPI {
 			request.put(TRANSPORTER_EMOTE_KEY, emote);
 			
 			// Encode, maybe?
+			
+			server.sendRemoteRequest(new Callback<TypeMap>(){}, request);
+		}
+	}
+	
+	public void doEmoteAll(String emote){
+		
+		for(RemoteServer server : api.getRemoteServers()){
+			
+			TypeMap request = new TypeMap();
+			request.put(TRANSPORTER_EMOTE_MSG_KEY, emote);
 			
 			server.sendRemoteRequest(new Callback<TypeMap>(){}, request);
 		}

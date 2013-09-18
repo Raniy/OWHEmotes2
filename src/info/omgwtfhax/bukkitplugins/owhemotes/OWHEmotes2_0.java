@@ -291,7 +291,16 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	public void setDefaultCommands(List<String> defaultCommands) {
 		this.defaultCommands = defaultCommands;
 	}
-
+	
+	
+	public TransporterAPI getTransporterAPI(){
+		return transporterAPI;
+	}
+	
+	
+	public void setTransporterAPI(TransporterAPI api){
+		transporterAPI = api;
+	}
 
 
 	public boolean isHardMode()

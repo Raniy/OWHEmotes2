@@ -30,7 +30,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 		
 		String cmd = event.getMessage() + " "; //Event message contains EVERYTHING, including the command itself
 		
-		String args = cmd.substring(cmd.indexOf(" ")+1); // Arguments to be passed into getOutputMessage()
+		String args = cmd.substring(cmd.indexOf(" ")+1); // Arguments to be passed into getOutputMessage(). This substring cuts out the command
 		cmd = cmd.substring(1, cmd.indexOf(" ")); // Remove the "/" from the beginning of the command
 		
 		for (Emote e:myPlugin.getMyEmotes())

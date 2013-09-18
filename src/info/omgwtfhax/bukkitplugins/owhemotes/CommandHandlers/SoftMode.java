@@ -1,5 +1,6 @@
 package info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -37,12 +38,34 @@ public class SoftMode implements org.bukkit.event.Listener{
 		{
 			if(e.getCommand().equalsIgnoreCase(cmd.substring(0,e.getCommand().length())))
 			{
+				if(e.getCommand().equalsIgnoreCase(cmd)){
+					System.out.println("======================TRUE. STOP DOING STUPID EXTRA WORK YOU IDIOT=========================");
+				}
 				//Found a potential MATCH!
 				if(this.myPlugin.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase()))
 				{
 					// They are allowed to do it!
 					// For now ignore any extra processing, assume all emotes are in third person.
-					String outputMessage = e.getOutputMessage(event.getPlayer().getName(), args);
+					
+					String outputMessage = new String();
+					String playerName = args.substring(0, args.indexOf(" ")); // Retrieve player name specified by CommandSender
+					
+					if(Bukkit.getPlayer(playerName) != null){
+						
+						playerName = Bukkit.getServer().getPlayer(playerName).getName();
+						outputMessage = e.getOutputMessage(event.getPlayer().getName(), playerName);		
+						
+					} else
+					{					
+						if(this.myPlugin.playerHasNode(event.getPlayer().getName(), OWHEmotes2_0.getPermissionNodes().get("base") + ".nonplayerp2p")) // May need to rename this atrocious node
+						{		
+							outputMessage = e.getOutputMessage(event.getPlayer().getName(), args); // Just send through whatever arguments player gave if they have this node
+						} else
+						{
+							event.setCancelled(true);
+							return; // Will return here if the player didn't specify another player's name, and didn't have perms for non player p2p messages.
+						}
+					}
 					
 					if(outputMessage != null)
 					{

@@ -43,7 +43,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			if(cmd.getName().equalsIgnoreCase("emoteall"))
 			{
 				if(args.length > 0) // Check that they have specified an emote.
-					return (doEmoteAll(getEmoteFromStrings(args[0],"",null), false));
+					return (doEmoteAll(getEmoteFromStrings(args[0],"",null), false)); // Need to work in the transporter part of the command, IF we are still going down that road
 			}
 			
 			if(!(myPlugin.playerHasNode(sender.getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
@@ -238,7 +238,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		if(useTransporter)
 		{
 			//TODO send emoteall to all available servers via Transporter
-			myPlugin.getTransporterAPI().sendMessageToAll(message)
+			myPlugin.getTransporterAPI().doEmoteAll(emote.getCommand());
 		}
 		return false;
 	}

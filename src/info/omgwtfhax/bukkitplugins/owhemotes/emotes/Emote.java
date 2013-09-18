@@ -94,15 +94,7 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 				message = message.replace("-p2", playerName);
 				
 				return message;
-			} else 
-			{
-				
-				if(this.myPlugin.playerHasNode(player, OWHEmotes2_0.getPermissionNodes().get("base") + ".p2p")){
-
-					
-					// TODO handle the string proccesing stuff for a NON-PLAYER p2p	
-				}
-			}
+			} 
 			
 		}
 		

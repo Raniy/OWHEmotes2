@@ -38,17 +38,15 @@ public class SoftMode implements org.bukkit.event.Listener{
 		{
 			if(e.getCommand().equalsIgnoreCase(cmd.substring(0,e.getCommand().length())))
 			{
-				if(e.getCommand().equalsIgnoreCase(cmd)){
-					System.out.println("======================TRUE. STOP DOING STUPID EXTRA WORK YOU IDIOT=========================");
-				}
 				//Found a potential MATCH!
 				if(this.myPlugin.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase()))
 				{
 					// They are allowed to do it!
 					// For now ignore any extra processing, assume all emotes are in third person.
 					
-					String outputMessage = new String();
-					String playerName = args.substring(0, args.indexOf(" ")); // Retrieve player name specified by CommandSender
+
+					String outputMessage = new String();					
+					String playerName = args.substring(0, args.indexOf(" ")); // Retrieve player name specified by CommandSender'
 					
 					if(Bukkit.getPlayer(playerName) != null){
 						

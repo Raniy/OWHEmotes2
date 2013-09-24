@@ -39,7 +39,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 			if(e.getCommand().equalsIgnoreCase(cmd.substring(0,e.getCommand().length())))
 			{
 				//Found a potential MATCH!
-				if(this.myPlugin.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase()))
+				if(this.myPlugin.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + "." + e.getCommand().toLowerCase()))
 				{
 					// They are allowed to do it!
 					// For now ignore any extra processing, assume all emotes are in third person.
@@ -55,7 +55,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 						
 					} else
 					{					
-						if(this.myPlugin.playerHasNode(event.getPlayer().getName(), OWHEmotes2_0.getPermissionNodes().get("base") + ".nonplayerp2p")) // May need to rename this atrocious node
+						if(this.myPlugin.playerHasNode(event.getPlayer().getName(), OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + ".nonplayerp2p")) // May need to rename this atrocious node
 						{		
 							outputMessage = e.getOutputMessage(event.getPlayer().getName(), args); // Just send through whatever arguments player gave if they have this node
 						} else

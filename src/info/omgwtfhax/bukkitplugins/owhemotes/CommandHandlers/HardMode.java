@@ -39,7 +39,7 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 				if(e.getCommand().equalsIgnoreCase(command.getName())){
 					
 					//Check if sender has permission for emote
-					if(this.myPlugin.playerHasNode(sender.getName(), OWHEmotes2_0.getPermissionNodes().get("base") + "." + e.getCommand().toLowerCase())) {
+					if(this.myPlugin.playerHasNode(sender.getName(), OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + "." + e.getCommand().toLowerCase())) {
 						
 						String outputMessage = new String();
 						
@@ -68,7 +68,7 @@ public class HardMode implements org.bukkit.command.CommandExecutor{
 							outputMessage = e.getOutputMessage(sender.getName(), Bukkit.getServer().getPlayer(args[0]).getName());
 						} else 
 						{
-							if(this.myPlugin.playerHasNode(sender.getName(), OWHEmotes2_0.getPermissionNodes().get("base") + ".nonplayerp2p")) // May need to rename this atrocious node
+							if(this.myPlugin.playerHasNode(sender.getName(), OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + ".nonplayerp2p")) // May need to rename this atrocious node
 							{		
 								outputMessage = e.getOutputMessage(sender.getName(), myPlugin.arrayToString(0, args)); // Just send through whatever arguments player gave if they have this node
 							} else

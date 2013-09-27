@@ -108,6 +108,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		defaultCommands.add("deleteemote");
 		defaultCommands.add("listemotes");
 		defaultCommands.add("reloademotes");
+		defaultCommands.add("emoteall");
 		
 		// Setup basic permissions.
 		getPermissionNodes().put("base",new PermissionNode("omgwtfhax.emotes"));

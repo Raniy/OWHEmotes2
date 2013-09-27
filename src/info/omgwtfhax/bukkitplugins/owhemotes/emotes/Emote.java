@@ -2,6 +2,7 @@ package info.omgwtfhax.bukkitplugins.owhemotes.emotes;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.bukkit.configuration.serialization.SerializableAs;
 
 public class Emote implements org.bukkit.configuration.serialization.ConfigurationSerializable{ // Class to contain data about any given emote.

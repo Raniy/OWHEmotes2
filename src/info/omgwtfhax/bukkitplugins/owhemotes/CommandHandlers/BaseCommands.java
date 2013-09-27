@@ -2,6 +2,7 @@ package info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers;
 
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
 import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,7 +44,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			if(cmd.getName().equalsIgnoreCase("emoteall"))
 			{
 				if(args.length > 0) // Check that they have specified an emote.
-					return (doEmoteAll(getEmoteFromStrings(args[0],"",null), false)); // Need to work in the transporter part of the command, IF we are still going down that road
+					return (doEmoteAll(getEmoteFromStrings(args[0],"",null), myPlugin.arrayToString(1, args), false)); // Need to work in the transporter part of the command, IF we are still going down that road
 			}
 			
 			if(!(myPlugin.playerHasNode(sender.getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
@@ -74,7 +75,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			if(cmd.getName().equalsIgnoreCase("emoteall"))
 			{
 				if(args.length > 0) // Check that they have specified an emote.
-					return (doEmoteAll(getEmoteFromStrings(args[0],label,null), false));
+					return (doEmoteAll(getEmoteFromStrings(args[0],label,null), myPlugin.arrayToString(1, args), false));
 			}
 		}
 		return false;
@@ -229,18 +230,28 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		return false;
 	}
 	
-	private boolean doEmoteAll(Emote emote, boolean useTransporter)
+	private boolean doEmoteAll(Emote emote, String args, boolean useTransporter)
 	{
-		for(Player p : myPlugin.getOnlinePlayers()){
-			myPlugin.dispatchCommand(p.getDisplayName(), emote.getCommand());
+		try{
+			
+			for(Player p : myPlugin.getOnlinePlayers())
+			{
+				p.performCommand(emote.getCommand() + " " + args);
+			}
+			
+			if(useTransporter)
+			{
+				//TODO send emoteall to all available servers via Transporter
+				myPlugin.getTransporterAPI().doEmoteAll(emote.getCommand());
+			}
+			return true;
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 		
-		if(useTransporter)
-		{
-			//TODO send emoteall to all available servers via Transporter
-			myPlugin.getTransporterAPI().doEmoteAll(emote.getCommand());
-		}
-		return true;
+		return false;
 	}
 	
 	private boolean doPluginReload()

@@ -1,6 +1,7 @@
 package info.omgwtfhax.bukkitplugins.owhemotes.transporter;
 
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
+import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
 
 import org.bukkit.plugin.Plugin;
 
@@ -14,8 +15,9 @@ public class TransporterAPI {
 	
 	//Key to use when sending / receiving any sent message.
 	public static String TRANSPORTER_MSG_KEY = "TRP-MSG";
-	public static String TRANSPORTER_EMOTE_KEY = "TRP-EMT";
-	public static String TRANSPORTER_EMOTE_MSG_KEY = "TRP-EMTMSG";
+	public static String TRANSPORTER_EMOTEADD_KEY = "TRP-EMT";
+	public static String TRANSPORTER_EMOTEALL_EMOTE_KEY = "TRP-EMTALLEMT";
+	public static String TRANSPORTER_EMOTEALL_ARGS_KEY = "TRP-EMTALLARG";
 	
 	API api;
 	OWHEmotes2_0 myPlugin;
@@ -42,7 +44,7 @@ public class TransporterAPI {
 		return false;
 	}
 	
-	//Send a message to all servers
+	//Send a message to all servers... Why did I make this?
 	public void sendMessageToAll(String message)
 	{
 		for(RemoteServer server : api.getRemoteServers())
@@ -55,13 +57,14 @@ public class TransporterAPI {
 		
 	}
 	
-	//Send an emote to all servers
-	public void sendEmoteToAll(info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote emote)
+	//Send an emote to all servers, for the purpose of adding the emote to their lists.
+	public void sendEmoteToAll(Emote emote)
 	{
 		for(RemoteServer server : api.getRemoteServers())
 		{
 			TypeMap request = new TypeMap();
-			request.put(TRANSPORTER_EMOTE_KEY, emote);
+			
+			request.put(TRANSPORTER_EMOTEADD_KEY, emote);
 			
 			// Encode, maybe?
 			
@@ -69,12 +72,14 @@ public class TransporterAPI {
 		}
 	}
 	
-	public void doEmoteAll(String emote){
+	public void doEmoteAll(Emote emote, String args){
 		
 		for(RemoteServer server : api.getRemoteServers()){
 			
 			TypeMap request = new TypeMap();
-			request.put(TRANSPORTER_EMOTE_MSG_KEY, emote);
+			
+			request.put(TRANSPORTER_EMOTEALL_EMOTE_KEY, emote);
+			request.put(TRANSPORTER_EMOTEALL_ARGS_KEY, args);
 			
 			server.sendRemoteRequest(new Callback<TypeMap>(){}, request);
 		}

@@ -43,8 +43,14 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 			if(cmd.getName().equalsIgnoreCase("emoteall"))
 			{
-				if(args.length > 0) // Check that they have specified an emote.
-					return (doEmoteAll(getEmoteFromStrings(args[0],"",null), myPlugin.arrayToString(1, args), false)); // Need to work in the transporter part of the command, IF we are still going down that road
+				if(args.length == 1) // Check that they have specified an emote.
+				{
+					return (doEmoteAll(getEmoteFromStrings(args[0],"",null), myPlugin.arrayToString(1, args), false));
+				} 
+				else if(args.length > 1)
+				{
+					return (doEmoteAll(getEmoteFromStrings(args[0],"",null), myPlugin.arrayToString(1, args), this.parseBoolean(args[1])));
+				}
 			}
 			
 			if(!(myPlugin.playerHasNode(sender.getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
@@ -241,7 +247,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 			if(useTransporter)
 			{
-				//TODO send emoteall to all available servers via Transporter
+				// send emoteall to all available servers via Transporter
 				myPlugin.getTransporterAPI().doEmoteAll(emote, args);
 			}
 			return true;
@@ -271,6 +277,15 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		// Return True for Woo, False for Boo
 		return false;
 		
+	}
+	
+	// Check to see if the given String is equal to the keyword we want.
+	public boolean parseBoolean(String bool)
+	{
+		if(bool.equalsIgnoreCase("-a"))
+			return true;
+		
+		return false;
 	}
 	
 	private Emote getEmoteFromStrings(String emoteCommand, String emoteMessage, Emote.Style emoteStyle)

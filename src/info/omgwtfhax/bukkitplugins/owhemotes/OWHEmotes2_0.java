@@ -19,7 +19,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	private List<String> defaultCommands = new ArrayList<String>();		
 	
 	// Default Modes
-	private boolean hardMode = true; // if True then the CraftBukkit kludge will be used. NOT SUGGESTED bY THE BUKKIT DEV TEAM!!! EH, Screw em.
+	private boolean hardMode = false; // if True then the CraftBukkit kludge will be used. NOT SUGGESTED bY THE BUKKIT DEV TEAM!!! EH, Screw em.
 	private boolean noConfig = false; // if True then do not ever store Emotes. They will disappear at restart. DO NOT COMBINE WITH THE FOLLOWING!
 	private boolean defaultEmotes = true; // if False then the default emotes will never be written into the memory. DO NOT COMBINE WITH THE ABOVE!
 	
@@ -64,6 +64,8 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	public void onDisable()
 	{
 		this.consoleInfo("Disabling...");
+		
+		this.addEmotesToConfig();
 		
 		// Save Config. 
 		this.saveMyConfig();
@@ -149,6 +151,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			{
 				Emote emote = (Emote)this.getMyConfig().getConfigurationSection("owh.emotes.emotes."+e);
 				this.getMyEmotes().add(emote);
+				
+				if(this.hardMode)
+				{
+					this.createEmoteCommand(emote);
+				}
 			}
 			
 		}
@@ -246,7 +253,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		{
 			return this.getMyConfig().getStringList("owh.emotes.list");
 		}
-		return null;
+		return new ArrayList<String>();
 	}
 	
 	public BaseCommands getBaseCommands() {
@@ -321,8 +328,6 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		this.myEmotes = myEmotes;
 	}
 	
-	@SuppressWarnings("unused") // Needs to be overhauled
-	// TODO: Overhaul to not save Defaults. 
 	private void addEmotesToConfig()
 	{
 		// First remove any Defaults...

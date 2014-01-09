@@ -46,7 +46,9 @@ public class SoftMode implements org.bukkit.event.Listener{
 					
 
 					String outputMessage = new String();					
-					String playerName = args.substring(0, args.indexOf(" ")); // Retrieve player name specified by CommandSender'
+					String playerName = "";
+					if(args.indexOf(" ") != -1)
+							playerName = args.substring(0, args.indexOf(" ")); // Retrieve player name specified by CommandSender'
 					
 					if(Bukkit.getPlayer(playerName) != null){
 						

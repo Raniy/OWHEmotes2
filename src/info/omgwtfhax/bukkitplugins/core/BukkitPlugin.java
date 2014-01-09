@@ -28,7 +28,7 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 	{	/*
 		 * Wrapper for Bukkit's built in FileConfiguration pluginname/config.yml Config File
 		 */
-	
+		System.out.println("Grabbing config");
 		return this.getConfig();
 	}
 	

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 
 public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin{
@@ -40,7 +39,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		this.consoleInfo("Enabling...");
 		
 		// Process Config
-		this.processConfig(this.getMyConfig());
+		this.processConfig();
 		
 		// Make sure Vault is working...
 		if(!(this.setupPermissions())) this.consoleInfo("Failed to setup Vault Permisions...");
@@ -97,7 +96,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		
 	}
 
-	public void processConfig(FileConfiguration myConfig)
+	public void processConfig()
 	{	
 		// Instance null variables
 		this.myEmotes = new ArrayList<Emote>();
@@ -149,7 +148,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			// Allowed to load emotes from Config
 			for(String e : getEmoteNamesFromConfig())
 			{
-				Emote emote = (Emote)this.getMyConfig().getConfigurationSection("owh.emotes.emotes."+e);
+				System.out.println("Grabbing " + e);
+				String emoteCommand = e;
+				String emoteStyle = this.getMyConfig().getString("OWH.Emotes.emotes."+e+".EmoteStyle");
+				String emoteMessage = this.getMyConfig().getString("OWH.Emotes.emotes."+e+".EmoteMessage");
+				Emote emote = new Emote(emoteCommand, emoteMessage, Emote.Style.valueOf(emoteStyle));
 				this.getMyEmotes().add(emote);
 				
 				if(this.hardMode)
@@ -249,9 +252,10 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	
 	private List<String> getEmoteNamesFromConfig()
 	{
-		if(this.getMyConfig().contains("owh.emotes.list"))
+		if(this.getMyConfig().contains("OWH.Emotes.list"))
 		{
-			return this.getMyConfig().getStringList("owh.emotes.list");
+			System.out.println("containts list");
+			return this.getMyConfig().getStringList("OWH.Emotes.list");
 		}
 		return new ArrayList<String>();
 	}
@@ -338,11 +342,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			emoteNames.add(e.getCommand());
 		}
 		
-		this.getMyConfig().set("owh.emotes.list", emoteNames);
+		this.getMyConfig().set("OWH.Emotes.list", emoteNames);
 		
 		for(Emote e : getMyEmotes())
 		{
-			this.getMyConfig().set("owh.emotes.emotes."+e.getCommand(), e);
+			this.getMyConfig().set("OWH.Emotes.emotes."+e.getCommand(), e);
 		}
 		
 	} 

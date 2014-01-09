@@ -274,7 +274,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		myPlugin.setMyEmotes(new java.util.ArrayList<Emote>()); // Setting to new empty list instead of using clear(), due to weird weirdness I've experienced with clear() before
 		
 		// Reload all variables from config.
-		myPlugin.processConfig(myPlugin.getMyConfig());
+		myPlugin.processConfig();
 		
 		// Restart the Listeners/CommandExecutors
 		myPlugin.startCommandHandler();

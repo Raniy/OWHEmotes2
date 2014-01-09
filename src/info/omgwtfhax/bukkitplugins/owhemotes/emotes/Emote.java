@@ -123,7 +123,7 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 		
 		map.put(serializedCommand, this.getCommand());
 		map.put(serializedMessage, this.getMessage());
-		map.put(serializedStyle, this.getStyle());
+		map.put(serializedStyle, this.getStyle().toString());
 		
 		return map;
 	}

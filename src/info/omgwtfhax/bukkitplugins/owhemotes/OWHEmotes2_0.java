@@ -150,7 +150,6 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			// Allowed to load emotes from Config
 			for(String e : getEmoteNamesFromConfig())
 			{
-				System.out.println("Grabbing " + e);
 				Emote emote = (Emote)this.getMyConfig().get("OWH.Emotes.Emotes."+e);
 				this.getMyEmotes().add(emote);
 				

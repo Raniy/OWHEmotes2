@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.bukkit.configuration.serialization.SerializableAs;
 
+@SerializableAs("Emote")
 public class Emote implements org.bukkit.configuration.serialization.ConfigurationSerializable{ // Class to contain data about any given emote.
-	@SerializableAs("Emote")
 	
 	public enum Style 
 	{

@@ -38,6 +38,8 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	{
 		this.consoleInfo("Enabling...");
 		
+		this.serializeEmotes();
+		
 		// Process Config
 		this.processConfig();
 		
@@ -149,10 +151,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			for(String e : getEmoteNamesFromConfig())
 			{
 				System.out.println("Grabbing " + e);
-				String emoteCommand = e;
-				String emoteStyle = this.getMyConfig().getString("OWH.Emotes.emotes."+e+".EmoteStyle");
-				String emoteMessage = this.getMyConfig().getString("OWH.Emotes.emotes."+e+".EmoteMessage");
-				Emote emote = new Emote(emoteCommand, emoteMessage, Emote.Style.valueOf(emoteStyle));
+				Emote emote = (Emote)this.getMyConfig().get("OWH.Emotes.Emotes."+e);
 				this.getMyEmotes().add(emote);
 				
 				if(this.hardMode)
@@ -252,10 +251,9 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	
 	private List<String> getEmoteNamesFromConfig()
 	{
-		if(this.getMyConfig().contains("OWH.Emotes.list"))
+		if(this.getMyConfig().contains("OWH.Emotes.EmoteList"))
 		{
-			System.out.println("containts list");
-			return this.getMyConfig().getStringList("OWH.Emotes.list");
+			return this.getMyConfig().getStringList("OWH.Emotes.EmoteList");
 		}
 		return new ArrayList<String>();
 	}
@@ -342,11 +340,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			emoteNames.add(e.getCommand());
 		}
 		
-		this.getMyConfig().set("OWH.Emotes.list", emoteNames);
+		this.getMyConfig().set("OWH.Emotes.EmoteList", emoteNames);
 		
 		for(Emote e : getMyEmotes())
 		{
-			this.getMyConfig().set("OWH.Emotes.emotes."+e.getCommand(), e);
+			this.getMyConfig().set("OWH.Emotes.Emotes."+e.getCommand(), e);
 		}
 		
 	} 

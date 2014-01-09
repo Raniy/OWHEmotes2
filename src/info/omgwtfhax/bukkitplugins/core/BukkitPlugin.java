@@ -1,5 +1,7 @@
 package info.omgwtfhax.bukkitplugins.core;
 
+import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
@@ -9,6 +11,7 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.craftbukkit.v1_7_R1.CraftServer; // HARD MODE REFERENCE, SUBJECT TO RANDOM CHANGES!!!
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -38,6 +41,11 @@ public class BukkitPlugin extends org.bukkit.plugin.java.JavaPlugin{
 		 */
 		
 		this.saveConfig();
+	}
+	
+	public void serializeEmotes()
+	{
+		ConfigurationSerialization.registerClass(Emote.class, "Emote");
 	}
 	
 	public org.bukkit.entity.Player[] getOnlinePlayers(){

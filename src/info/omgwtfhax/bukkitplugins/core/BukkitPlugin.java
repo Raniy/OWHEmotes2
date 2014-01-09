@@ -9,7 +9,7 @@ import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.craftbukkit.v1_6_R2.CraftServer; // HARD MODE REFERENCE, SUBJECT TO RANDOM CHANGES!!!
+import org.bukkit.craftbukkit.v1_7_R1.CraftServer; // HARD MODE REFERENCE, SUBJECT TO RANDOM CHANGES!!!
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 

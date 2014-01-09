@@ -6,6 +6,7 @@ import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 public class BaseCommands implements org.bukkit.command.CommandExecutor
 {
@@ -262,17 +263,21 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	
 	private boolean doPluginReload()
 	{
-		// TODO
+		//TODO
 		
 		// Stop all listeners
+		PlayerCommandPreprocessEvent.getHandlerList().unregister(myPlugin.getSoftModeListener());
+		myPlugin.getHardModeExecutor().
 		
 		// Empty all lists
+		//myPlugin.getMyEmotes().clear();
+		myPlugin.setMyEmotes(new java.util.ArrayList<Emote>()); // Setting to new empty list instead of using clear(), due to weird weirdness I've experienced with clear() before
 		
 		// Reload all variables from config.
-		
-		// Rebuild all lists
+		myPlugin.processConfig(myPlugin.getMyConfig());
 		
 		// Restart the Listeners/CommandExecutors
+		myPlugin.startCommandHandler();
 		
 		// Return True for Woo, False for Boo
 		return false;

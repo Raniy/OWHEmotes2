@@ -48,7 +48,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		if(!(this.setupChat())) this.consoleInfo("Failed to setup Vault Chat...");
 		
 		// Start listening for commands.
-		this.startCommanHandler();
+		this.startCommandHandler();
 		
 		// Start up transporter
 		transporterAPI = new TransporterAPI(this);
@@ -72,7 +72,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	}
 	
 	// Plugin Logic
-	public void startCommanHandler()
+	public void startCommandHandler()
 	{	
 		// First: Make sure we are listening for our Default commands.
 		for(String cmd:this.getDefaultCommands())
@@ -95,7 +95,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		
 	}
 
-	private void processConfig(FileConfiguration myConfig)
+	public void processConfig(FileConfiguration myConfig)
 	{	
 		// Instance null variables
 		this.myEmotes = new ArrayList<Emote>();
@@ -145,7 +145,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		if(!(this.isNoConfig())) // Check if we are loading stored emotes. 
 		{
 			// Allowed to load emotes from Config
-			getEmotesFromConfig();
+			for(String e : getEmoteNamesFromConfig())
+			{
+				Emote emote = (Emote)this.getMyConfig().getConfigurationSection("owh.emotes.emotes."+e);
+				this.getMyEmotes().add(emote);
+			}
 			
 		}
 		
@@ -236,13 +240,11 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		this.setDefaultEmotes(this.getMyConfig().getBoolean("OWH.Emotes.DefaultEmotes",this.isDefaultEmotes()));
 	}
 	
-	private List<String> getEmotesFromConfig()
+	private List<String> getEmoteNamesFromConfig()
 	{
-		// TODO Get the current list of Emotes from the Config.yml file	
-		
-		// Check if there are any emotes stored.
-		if(this.getMyConfig().contains("owh.emotes.list")){
-			
+		if(this.getMyConfig().contains("owh.emotes.list"))
+		{
+			return this.getMyConfig().getStringList("owh.emotes.list");
 		}
 		return null;
 	}
@@ -324,7 +326,19 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	private void addEmotesToConfig()
 	{
 		// First remove any Defaults...
-		this.getMyConfig().set("owh.emotes.list", this.getMyEmotes());
+		List<String> emoteNames = new ArrayList<String>();
+		
+		for(Emote e : getMyEmotes())
+		{
+			emoteNames.add(e.getCommand());
+		}
+		
+		this.getMyConfig().set("owh.emotes.list", emoteNames);
+		
+		for(Emote e : getMyEmotes())
+		{
+			this.getMyConfig().set("owh.emotes.emotes."+e.getCommand(), e);
+		}
 		
 	} 
 	

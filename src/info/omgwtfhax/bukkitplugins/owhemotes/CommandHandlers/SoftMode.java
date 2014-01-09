@@ -36,46 +36,47 @@ public class SoftMode implements org.bukkit.event.Listener{
 		
 		for (Emote e:myPlugin.getMyEmotes())
 		{
-			if(e.getCommand().equalsIgnoreCase(cmd.substring(0,e.getCommand().length())))
-			{
-				//Found a potential MATCH!
-				if(this.myPlugin.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + "." + e.getCommand().toLowerCase()))
+			if(cmd.length() >= e.getCommand().length()){
+				if(e.getCommand().equalsIgnoreCase(cmd.substring(0,e.getCommand().length())))
 				{
-					// They are allowed to do it!
-					// For now ignore any extra processing, assume all emotes are in third person.
-					
-
-					String outputMessage = new String();					
-					String playerName = "";
-					if(args.indexOf(" ") != -1)
-							playerName = args.substring(0, args.indexOf(" ")); // Retrieve player name specified by CommandSender'
-					
-					if(Bukkit.getPlayer(playerName) != null){
-						
-						playerName = Bukkit.getServer().getPlayer(playerName).getName();
-						outputMessage = e.getOutputMessage(event.getPlayer().getName(), playerName);		
-						
-					} else
-					{					
-						if(this.myPlugin.playerHasNode(event.getPlayer().getName(), OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + ".nonplayerp2p")) // May need to rename this atrocious node
-						{		
-							outputMessage = e.getOutputMessage(event.getPlayer().getName(), args); // Just send through whatever arguments player gave if they have this node
-						} else
-						{
-							event.setCancelled(true);
-							return; // Will return here if the player didn't specify another player's name, and didn't have perms for non player p2p messages.
-						}
-					}
-					
-					if(outputMessage != null)
+					//Found a potential MATCH!
+					if(this.myPlugin.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + "." + e.getCommand().toLowerCase()))
 					{
-						this.myPlugin.sendToAll(outputMessage); // Pass in the arguments, even if they may be null.
-						event.setCancelled(true);
+						// They are allowed to do it!
+						// For now ignore any extra processing, assume all emotes are in third person.
+						
+	
+						String outputMessage = new String();					
+						String playerName = "";
+						if(args.indexOf(" ") != -1)
+								playerName = args.substring(0, args.indexOf(" ")); // Retrieve player name specified by CommandSender'
+						
+						if(Bukkit.getPlayer(playerName) != null){
+							
+							playerName = Bukkit.getServer().getPlayer(playerName).getName();
+							outputMessage = e.getOutputMessage(event.getPlayer().getName(), playerName);		
+							
+						} else
+						{					
+							if(this.myPlugin.playerHasNode(event.getPlayer().getName(), OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + ".nonplayerp2p")) // May need to rename this atrocious node
+							{		
+								outputMessage = e.getOutputMessage(event.getPlayer().getName(), args); // Just send through whatever arguments player gave if they have this node
+							} else
+							{
+								event.setCancelled(true);
+								return; // Will return here if the player didn't specify another player's name, and didn't have perms for non player p2p messages.
+							}
+						}
+						
+						if(outputMessage != null)
+						{
+							this.myPlugin.sendToAll(outputMessage); // Pass in the arguments, even if they may be null.
+							event.setCancelled(true);
+						}
+						
 					}
-					
 				}
-			}
-			
+			}		
 		}
 	}
 }

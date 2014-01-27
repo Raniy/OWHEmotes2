@@ -46,7 +46,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 						// For now ignore any extra processing, assume all emotes are in third person.
 						
 	
-						String outputMessage = new String();					
+						String outputMessage = null;					
 						String playerName = "";
 						if(args.indexOf(" ") != -1)
 								playerName = args.substring(0, args.indexOf(" ")); // Retrieve player name specified by CommandSender'
@@ -56,7 +56,8 @@ public class SoftMode implements org.bukkit.event.Listener{
 							playerName = Bukkit.getServer().getPlayer(playerName).getName();
 							outputMessage = e.getOutputMessage(event.getPlayer().getName(), playerName);		
 							
-						} else
+						} 
+						else
 						{					
 							if(this.myPlugin.playerHasNode(event.getPlayer().getName(), OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + ".nonplayerp2p")) // May need to rename this atrocious node
 							{		
@@ -72,6 +73,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 						{
 							this.myPlugin.sendToAll(outputMessage); // Pass in the arguments, even if they may be null.
 							event.setCancelled(true);
+							return;
 						}
 						
 					}

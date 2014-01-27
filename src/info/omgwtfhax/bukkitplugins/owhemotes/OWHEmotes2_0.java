@@ -18,7 +18,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 	private List<String> defaultCommands = new ArrayList<String>();		
 	
 	// Default Modes
-	private boolean hardMode = false; // if True then the CraftBukkit kludge will be used. NOT SUGGESTED bY THE BUKKIT DEV TEAM!!! EH, Screw em.
+	private boolean hardMode = true; // if True then the CraftBukkit kludge will be used. NOT SUGGESTED bY THE BUKKIT DEV TEAM!!! EH, Screw em.
 	private boolean noConfig = false; // if True then do not ever store Emotes. They will disappear at restart. DO NOT COMBINE WITH THE FOLLOWING!
 	private boolean defaultEmotes = true; // if False then the default emotes will never be written into the memory. DO NOT COMBINE WITH THE ABOVE!
 	
@@ -148,7 +148,7 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		if(!(this.isNoConfig())) // Check if we are loading stored emotes. 
 		{
 			// Allowed to load emotes from Config
-			for(String e : getEmoteNamesFromConfig())
+			/*for(String e : getEmoteNamesFromConfig())
 			{
 				Emote emote = (Emote)this.getMyConfig().get("OWH.Emotes.Emotes."+e);
 				this.getMyEmotes().add(emote);
@@ -156,6 +156,20 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 				if(this.hardMode)
 				{
 					this.createEmoteCommand(emote);
+				}
+			}*/
+			@SuppressWarnings("unchecked")
+			List<Emote> emotes = (List<Emote>)this.getMyConfig().getList("OWH.Emotes.Emotes");
+			
+			if(emotes != null)
+			{
+				this.setMyEmotes(emotes);
+				for(Emote e : emotes)
+				{
+					if(this.hardMode)
+					{
+						this.createEmoteCommand(e);
+					}
 				}
 			}
 			
@@ -248,15 +262,6 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		this.setDefaultEmotes(this.getMyConfig().getBoolean("OWH.Emotes.DefaultEmotes",this.isDefaultEmotes()));
 	}
 	
-	private List<String> getEmoteNamesFromConfig()
-	{
-		if(this.getMyConfig().contains("OWH.Emotes.EmoteList"))
-		{
-			return this.getMyConfig().getStringList("OWH.Emotes.EmoteList");
-		}
-		return new ArrayList<String>();
-	}
-	
 	public BaseCommands getBaseCommands() {
 		return baseCommands;
 	}
@@ -339,12 +344,9 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 			emoteNames.add(e.getCommand());
 		}
 		
-		this.getMyConfig().set("OWH.Emotes.EmoteList", emoteNames);
+		//this.getMyConfig().set("OWH.Emotes.EmoteList", emoteNames);
 		
-		for(Emote e : getMyEmotes())
-		{
-			this.getMyConfig().set("OWH.Emotes.Emotes."+e.getCommand(), e);
-		}
+		this.getMyConfig().set("OWH.Emotes.Emotes", this.getMyEmotes());
 		
 	} 
 	

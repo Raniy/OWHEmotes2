@@ -2,7 +2,9 @@ package info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers;
 
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
 import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
+import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -50,7 +52,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 				} 
 				else if(args.length > 1)
 				{
-					return (doEmoteAll(getEmoteFromStrings(args[0],"",null), myPlugin.arrayToString(1, args), this.parseBoolean(args[1])));
+					return (doEmoteAll(getEmoteFromStrings(args[0],"",null), myPlugin.arrayToString(1, args), false));
 				}
 			}
 			
@@ -210,15 +212,31 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	{
 		try{
 			
-			for(Player p : myPlugin.getOnlinePlayers())
+			Emote matchingEmote = null;
+			
+			for(Emote e : myPlugin.getMyEmotes())
 			{
-				p.performCommand(emote.getCommand() + " " + args);
+				if(e.getCommand().equalsIgnoreCase(emote.getCommand()))
+				{
+					//possible match
+					if(args.equals("") && e.getStyle() == Style.THIRD)
+						matchingEmote = e;
+					else if(!(args.equals("")) && e.getStyle() == Style.P2P)
+					{
+						if(Bukkit.getPlayer(args.substring(args.indexOf(emote.getCommand())+emote.getCommand().length()))!=null)
+							args = Bukkit.getPlayer(args.substring(args.indexOf(emote.getCommand())+emote.getCommand().length())).getName();
+						
+						matchingEmote = e;
+					}
+				}
 			}
 			
-			if(useTransporter)
+			if(matchingEmote != null)
 			{
-				// send emoteall to all available servers via Transporter
-				myPlugin.getTransporterAPI().doEmoteAll(emote, args);
+				for(Player p : myPlugin.getOnlinePlayers())
+				{
+					myPlugin.sendToAll(matchingEmote.getOutputMessage(p.getName(), args));
+				}
 			}
 			return true;
 			
@@ -249,15 +267,6 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		// Return True for Woo, False for Boo
 		return true;
 		
-	}
-	
-	// Check to see if the given String is equal to the keyword we want.
-	public boolean parseBoolean(String bool)
-	{
-		if(bool.equalsIgnoreCase("-a"))
-			return true;
-		
-		return false;
 	}
 	
 	private Emote getEmoteFromStrings(String emoteCommand, String emoteMessage, Emote.Style emoteStyle)

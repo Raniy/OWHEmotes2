@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import info.omgwtfhax.bukkitplugins.owhemotes.OWHEmotes2_0;
 import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
+import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style;
 
 public class SoftMode implements org.bukkit.event.Listener{
 	/*
@@ -42,30 +43,43 @@ public class SoftMode implements org.bukkit.event.Listener{
 					//Found a potential MATCH!
 					if(this.myPlugin.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + "." + e.getCommand().toLowerCase()))
 					{
-						// They are allowed to do it!
-						// For now ignore any extra processing, assume all emotes are in third person.
-						
+						// They are allowed to do it!	
 	
 						String outputMessage = null;					
 						String playerName = "";
-						if(args.indexOf(" ") != -1)
+						if(args.indexOf(" ") > 0)
 								playerName = args.substring(0, args.indexOf(" ")); // Retrieve player name specified by CommandSender'
 						
-						if(Bukkit.getPlayer(playerName) != null){
-							
-							playerName = Bukkit.getServer().getPlayer(playerName).getName();
-							outputMessage = e.getOutputMessage(event.getPlayer().getName(), playerName);		
-							
-						} 
-						else
-						{					
-							if(this.myPlugin.playerHasNode(event.getPlayer().getName(), OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + ".nonplayerp2p")) // May need to rename this atrocious node
-							{		
-								outputMessage = e.getOutputMessage(event.getPlayer().getName(), args); // Just send through whatever arguments player gave if they have this node
-							} else
+						if(e.getStyle() == Style.THIRD)
+						{
+							if(playerName.equals(""))
 							{
-								event.setCancelled(true);
-								return; // Will return here if the player didn't specify another player's name, and didn't have perms for non player p2p messages.
+								outputMessage = e.getOutputMessage(event.getPlayer().getName(), playerName);	
+							}
+						}
+						else if(e.getStyle() == Style.P2P)
+						{
+							if((Bukkit.getPlayer(playerName) != null) && !(playerName.equals("")))
+							{
+							
+								playerName = Bukkit.getServer().getPlayer(playerName).getName();
+								
+								outputMessage = e.getOutputMessage(event.getPlayer().getName(), playerName);	
+								
+							} 
+							else
+							{	
+								if(!playerName.equals(""))
+								{
+									if(this.myPlugin.playerHasNode(event.getPlayer().getName(), OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + ".nonplayerp2p")) // May need to rename this atrocious node
+									{		
+										outputMessage = e.getOutputMessage(event.getPlayer().getName(), args); // Just send through whatever arguments player gave if they have this node
+									} else
+									{
+										event.setCancelled(true);
+										return; // Will return here if the player didn't specify another player's name, and didn't have perms for non player p2p messages.
+									}
+								}
 							}
 						}
 						

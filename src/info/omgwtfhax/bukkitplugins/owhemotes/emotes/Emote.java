@@ -32,6 +32,8 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 	private String message = "makes a steaming mess all over the lawn."; // Default Emote
 	private Style style = Emote.Style.THIRD; // Default tense
 	
+	private boolean isDefault = false;
+	
 	// Constructors
 	
 	// Base
@@ -129,4 +131,13 @@ public class Emote implements org.bukkit.configuration.serialization.Configurati
 		return map;
 	}
 	
+	public boolean isDefault()
+	{
+		return this.isDefault;
+	}
+	
+	public void setDefault(boolean isDefault)
+	{
+		this.isDefault = isDefault;
+	}
 }

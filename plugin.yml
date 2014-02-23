@@ -27,3 +27,6 @@ other things might happen..."
     emoteall:
         description: "Cause all players to use an Emote."
         usage: "/emoteall [Emote]"
+    reloademotes:
+        description: "Reload the OWHEmotes plugin"
+        usage: "/reloademotes"

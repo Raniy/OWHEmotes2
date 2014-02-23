@@ -56,8 +56,11 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 			if(!(myPlugin.playerHasNode(sender.getName(),OWHEmotes2_0.getPermissionNodes().get("reload").getMyNode()))) return false; // No Permission!
 			{
-				// Reload plugin
-				return (doPluginReload());
+				if(cmd.getName().equalsIgnoreCase("reloademotes"))
+				{
+					// Reload plugin
+					return (doPluginReload());
+				}
 			}
 			
 		} else {
@@ -95,14 +98,6 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		{
 			// Add new emote to our list of emotes
 			myPlugin.addEmoteToList(emote);
-			
-			// Extra shizzle when using HardMode
-			if(myPlugin.isHardMode())
-			{
-				// Create a new command pertaining to the emote
-				myPlugin.createEmoteCommand(emote); 
-				
-			}		
 
 			// Tell player their new emote has been made, as well as alert console
 			myPlugin.sendToPlayer(player, "New emote added!");
@@ -125,13 +120,6 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		{
 			// Add new emote to our list of emotes
 			myPlugin.addEmoteToList(emote);
-			
-			// Extra shizzle when using HardMode
-			if(myPlugin.isHardMode())
-			{
-				// Create a new command pertaining to the emote
-				myPlugin.createEmoteCommand(emote); 
-			}
 
 			myPlugin.consoleInfo("New emote added!");
 			return true;
@@ -148,16 +136,6 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	{	
 		try
 		{	
-			
-			if(myPlugin.isHardMode())
-			{
-				if(!myPlugin.removeCommand(emote)) // Check if false
-				{
-					myPlugin.sendToPlayer(player, "Emote does not exist.");
-					return false;
-				}
-			}
-			
 			myPlugin.sendToPlayer(player, "Emote successfully deleted!");
 			return true;
 			
@@ -173,15 +151,6 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	{
 		try
 		{
-			
-			if(myPlugin.isHardMode())
-			{
-				if(!myPlugin.removeCommand(emote))
-				{
-					myPlugin.consoleInfo("Emote does not exist.");
-					return false;
-				}
-			}
 			
 			myPlugin.consoleInfo("Emote successfully deleted!");
 			
@@ -263,11 +232,9 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	
 	private boolean doPluginReload()
 	{
-		//TODO
 		
 		// Stop all listeners
 		PlayerCommandPreprocessEvent.getHandlerList().unregister(myPlugin.getSoftModeListener());
-		myPlugin.getHardModeExecutor().
 		
 		// Empty all lists
 		//myPlugin.getMyEmotes().clear();
@@ -280,7 +247,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		myPlugin.startCommandHandler();
 		
 		// Return True for Woo, False for Boo
-		return false;
+		return true;
 		
 	}
 	

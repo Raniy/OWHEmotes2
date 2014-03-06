@@ -24,13 +24,13 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	{
 		// We have four 'Base' commands. AddEmote, DeleteEmote, ListEmotes, EmoteAll. These can all be called by either a player or the console
 		if (sender instanceof Player)
-		{
+		{			
+			if(!(myPlugin.playerHasNode(sender.getName(),OWHEmotes2_0.getPermissionNodes().get("moderator").getMyNode()))) return false; // No Permission!
+
 			if(cmd.getName().equalsIgnoreCase("listemotes"))
 			{
 				return(doListByPlayer((sender.getName())));
 			}
-			
-			if(!(myPlugin.playerHasNode(sender.getName(),OWHEmotes2_0.getPermissionNodes().get("moderator").getMyNode()))) return false; // No Permission!
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
 			{

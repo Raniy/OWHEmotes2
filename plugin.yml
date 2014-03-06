@@ -6,7 +6,7 @@ name: OWHEmotes2_0
 startup: postworld
 url: https://github.com/Raniy/OWHEmotes2
 version: 0.0.2
-depend: [Vault, Transporter]
+depend: [Vault]
 commands:
     addemote:
         description: "Adds an Emote."

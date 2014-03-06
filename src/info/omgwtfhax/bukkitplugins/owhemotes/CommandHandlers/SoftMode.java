@@ -73,7 +73,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 								{
 									if(this.myPlugin.playerHasNode(event.getPlayer().getName(), OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + ".nonplayerp2p")) // May need to rename this atrocious node
 									{		
-										outputMessage = e.getOutputMessage(event.getPlayer().getName(), args); // Just send through whatever arguments player gave if they have this node
+										outputMessage = e.getOutputMessage(event.getPlayer().getName(), args.substring(0,args.length()-1)); // Just send through whatever arguments player gave if they have this node
 									} else
 									{
 										event.setCancelled(true);

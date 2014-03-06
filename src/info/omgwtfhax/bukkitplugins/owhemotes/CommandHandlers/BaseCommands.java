@@ -40,7 +40,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			
 			if(cmd.getName().equalsIgnoreCase("deleteemote"))
 			{
-				if(args.length > 1) // Check that the sender has given an emote name and style
+				if(args.length > 0) // Check that the sender has given an emote name and style
 					return (doDeleteByPlayer(sender.getName(), getEmoteFromStrings(args[0], "", Emote.Style.getStyleFromString(args[1]))));
 			}
 			

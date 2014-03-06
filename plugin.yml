@@ -14,7 +14,7 @@ commands:
         aliases: [ae,emote add]
     deleteemote:
         description: "Removes an Emote."
-        usage: "/deleteemote <command/name>"  
+        usage: "/deleteemote <command/name> <style(third=0,p2p=1)"  
         aliases: [de,emote delete]
     listemotes:
         description: "Removes an Emote."

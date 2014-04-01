@@ -252,7 +252,9 @@ public class OWHEmotes2_0 extends info.omgwtfhax.bukkitplugins.core.BukkitPlugin
 		//Return a string made from an array seperated by spaces. Startpoint will exclude starting objects in the array.
 		String message = "";
 		for(int i = startpoint; i < args.length; i++){
-			message = message + args[i] + " ";
+			message = message + args[i];
+			if(i < args.length-1)
+				message += " ";
 		}
 		return message;
 	}

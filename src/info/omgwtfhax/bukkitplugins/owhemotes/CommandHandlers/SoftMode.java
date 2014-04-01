@@ -1,6 +1,7 @@
 package info.omgwtfhax.bukkitplugins.owhemotes.commandhandlers;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -38,7 +39,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 		for (Emote e:myPlugin.getMyEmotes())
 		{
 			if(cmd.length() >= e.getCommand().length()){
-				if(e.getCommand().equalsIgnoreCase(cmd.substring(0,e.getCommand().length())))
+				if(e.getCommand().equalsIgnoreCase(cmd))
 				{
 					//Found a potential MATCH!
 					if(this.myPlugin.playerHasNode(event.getPlayer().getName(),OWHEmotes2_0.getPermissionNodes().get("base").getMyNode() + "." + e.getCommand().toLowerCase()))
@@ -85,7 +86,7 @@ public class SoftMode implements org.bukkit.event.Listener{
 						
 						if(outputMessage != null)
 						{
-							this.myPlugin.sendToAll(outputMessage); // Pass in the arguments, even if they may be null.
+							this.myPlugin.sendToAll(ChatColor.GOLD + outputMessage); // Pass in the arguments, even if they may be null.
 							event.setCancelled(true);
 							return;
 						}

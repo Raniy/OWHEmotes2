@@ -17,8 +17,8 @@ commands:
         usage: "/deleteemote <command/name> <style(third=0,p2p=1)"  
         aliases: [de,emote delete]
     listemotes:
-        description: "Removes an Emote."
-        usage: "/listemotes [character]" 
+        description: "Lists all current emotes."
+        usage: "/listemotes" 
         aliases: [le,emote list]
     reloademotes:
         description: "Reload the Emotes plugin."
@@ -26,7 +26,7 @@ commands:
 other things might happen..."
     emoteall:
         description: "Cause all players to use an Emote."
-        usage: "/emoteall [Emote]"
+        usage: "/emoteall [Emote] <args>"
     reloademotes:
         description: "Reload the OWHEmotes plugin"
         usage: "/reloademotes"

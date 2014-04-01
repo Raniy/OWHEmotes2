@@ -138,8 +138,21 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 	{	
 		try
 		{	
-			myPlugin.sendToPlayer(player, "Emote successfully deleted!");
-			return true;
+			for(Emote e : this.myPlugin.getMyEmotes())
+			{
+				if(e.getCommand().equalsIgnoreCase(emote.getCommand()))
+				{
+					if(e.getStyle() == emote.getStyle())
+					{
+						this.myPlugin.getMyEmotes().remove(e);
+						myPlugin.sendToPlayer(player, ("Emote successfully deleted!"));
+						
+						return true;
+					}
+				}
+			}
+
+			myPlugin.sendToPlayer(player, ("Emote not found."));
 			
 		} catch(Exception e)
 		{
@@ -154,9 +167,21 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		try
 		{
 			
-			myPlugin.consoleInfo("Emote successfully deleted!");
+			for(Emote e : this.myPlugin.getMyEmotes())
+			{
+				if(e.getCommand().equalsIgnoreCase(emote.getCommand()))
+				{
+					if(e.getStyle() == emote.getStyle())
+					{
+						this.myPlugin.getMyEmotes().remove(e);
+						myPlugin.consoleInfo("Emote successfully deleted!");
+						
+						return true;
+					}
+				}
+			}
 			
-			return true;
+			myPlugin.consoleInfo("Emote not found.");
 			
 		} catch(Exception e)
 		{

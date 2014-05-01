@@ -5,6 +5,7 @@ import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote;
 import info.omgwtfhax.bukkitplugins.owhemotes.emotes.Emote.Style;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -29,7 +30,10 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 
 			if(cmd.getName().equalsIgnoreCase("listemotes"))
 			{
-				return(doListByPlayer((sender.getName())));
+				if(args.length > 0)
+					return(doListByPlayer(sender.getName(),args[0]));
+				else
+					return(doListByPlayer(sender.getName(),"0"));
 			}
 			
 			if(cmd.getName().equalsIgnoreCase("addemote"))
@@ -191,16 +195,34 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 		return false;
 	}
 	
-	private boolean doListByPlayer(String player) // How dare you add a list emotes, you traitor!
+	private boolean doListByPlayer(String player, String argument) // How dare you add a list emotes, you traitor!
 	{
 		// Exception handling
 		try{
 			
-			// Iterate through stored emotes
-			for(Emote e : myPlugin.getMyEmotes())
+			int index; 
+			
+			try
 			{
+				index = Integer.parseInt(argument)*10;
+			} catch(Exception e)
+			{
+				index = 0;
+			}
+			
+			myPlugin.sendToPlayer(player, ChatColor.GOLD + "Emotes " + index + " through " + (index+10));
+			
+			// Iterate through stored emotes
+			for(int i = index; i < index+10; i++)
+			{
+				
+				if(i >= myPlugin.getMyEmotes().size())
+					return true;
+				
+				Emote e = myPlugin.getMyEmotes().get(i);
+				
 				// Send the player a message with info about this emote
-				myPlugin.sendToPlayer(player, e.getCommand() + ": \"" + e.getMessage() + "\"");
+				myPlugin.sendToPlayer(player, e.getCommand() + ": " + e.getMessage());
 			}
 			
 			return true;
@@ -221,7 +243,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			for(Emote e : myPlugin.getMyEmotes())
 			{
 				// Send the console a message with info about this emote
-				myPlugin.consoleInfo(e.getCommand() + ": \"" + e.getMessage() + "\"");
+				myPlugin.consoleInfo(e.getCommand() + ": " + e.getMessage());
 			}
 			
 			return true;
@@ -260,7 +282,7 @@ public class BaseCommands implements org.bukkit.command.CommandExecutor
 			{
 				for(Player p : myPlugin.getOnlinePlayers())
 				{
-					myPlugin.sendToAll(matchingEmote.getOutputMessage(p.getName(), args));
+					myPlugin.sendToAll(ChatColor.GOLD + matchingEmote.getOutputMessage(p.getName(), args));
 				}
 			}
 			return true;
